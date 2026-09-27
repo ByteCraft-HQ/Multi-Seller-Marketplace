@@ -121,7 +121,7 @@ The relationship can therefore be described as:
 
 > **User–Role Relationship Diagram**
 >
-> ![User Domain Relationship](IMAGES/001-USER-DOMAIN-RELATION-SHIP.svg)
+> ![001-User-Domain-Relationship](DOCUMINTATION/USER-DOMAIL/IMAGES/001-USER-DOMAIN-RELATION-SHIP.svg)
 
 ---
 
