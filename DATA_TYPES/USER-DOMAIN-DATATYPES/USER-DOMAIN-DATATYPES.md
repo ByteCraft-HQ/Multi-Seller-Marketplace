@@ -1717,5 +1717,5 @@ without treating them as mathematical numbers.
 `OpeningAt` and `ClosedAt` represent times of day, so `TIME` is more appropriate than `DATETIME` or `DATETIME2` when no date is part of the business rule.
 
 >**Final Design**
-
->![001-USER-DOMAIL-FINAL-DESIGN-AND-DATATYPES]()
+>
+>![001-USER-DOMAIL-FINAL-DESIGN-AND-DATATYPES](/DATA_TYPES/USER-DOMAIN-DATATYPES/001-USER-DOMAIN-DATATYPES.svg)
