@@ -136,7 +136,7 @@ The related rules and Constraints will be documented separately in the `Constrai
 
 # 6. HashPassword
 
-**Data Type:** `VARCHAR(50)`
+**Data Type:** `VARCHAR(255)`
 
 `HashPassword` stores the hashed representation of the user's password instead of storing the original password.
 
@@ -158,13 +158,16 @@ Therefore, Unicode support is not required for the stored hash itself.
 
 The fact that the original password may contain Unicode characters does not mean that the resulting hash column must use `NVARCHAR`.
 
-### Why 50 Characters?
+### Why 255 Characters?
 
-`50` characters is a **business-defined limit** for this system.
+`255` characters is a **business-defined limit** for this system.
 
 This limit is part of the current database design requirements.
 
 > **Important:** The 50-character limit must be compatible with the exact password-hashing algorithm and encoding format used by the application. The database column must always be large enough to store the complete generated hash.
+>**Note:** Changing the hashing algorithm we use in the project in the future could cause issues if the column length is less than 255 characters. Therefore, we should take this into consideration when defining the database schema.
+>
+> For this reason, we set the `PasswordHash` column length to `255`, as a different hashing algorithm may require a longer hash string. This gives us enough flexibility in case we decide to switch to a different algorithm in the future.
 
 ---
 
