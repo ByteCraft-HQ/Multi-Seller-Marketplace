@@ -165,6 +165,7 @@ The fact that the original password may contain Unicode characters does not mean
 This limit is part of the current database design requirements.
 
 > **Important:** The 50-character limit must be compatible with the exact password-hashing algorithm and encoding format used by the application. The database column must always be large enough to store the complete generated hash.
+>
 >**Note:** Changing the hashing algorithm we use in the project in the future could cause issues if the column length is less than 255 characters. Therefore, we should take this into consideration when defining the database schema.
 >
 > For this reason, we set the `PasswordHash` column length to `255`, as a different hashing algorithm may require a longer hash string. This gives us enough flexibility in case we decide to switch to a different algorithm in the future.
