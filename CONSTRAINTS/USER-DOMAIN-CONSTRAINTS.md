@@ -211,7 +211,7 @@ CREATE TABLE USERS
         CHECK (BirthDate < SYSDATETIME()),
 
     CONSTRAINT User_Gender_Check
-        CHECK (Gender IN (UPPER('male', 'female')))
+        CHECK (Gender = UPPER(TRIM(Gender)) AND Gender IN ('male', 'female')))
 );
 ```
 
