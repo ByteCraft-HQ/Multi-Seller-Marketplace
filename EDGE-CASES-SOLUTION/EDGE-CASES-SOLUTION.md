@@ -60,7 +60,7 @@ The user is effectively deleted from the application's perspective, while the un
 
 This approach protects important business and financial data and prevents accidental data loss or broken relationships between the account and its dependent records.
 
-![Soft Delete Flow](./path/to/image.png)
+
 
 ---
 
