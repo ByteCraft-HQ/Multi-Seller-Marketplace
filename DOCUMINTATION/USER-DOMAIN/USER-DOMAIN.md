@@ -13,6 +13,9 @@ The domain consists of the following main concepts:
 * `UserRole`
 * `RoleCategory`
 * `BusinessInformation`
+* `Users-PhoneNumber`
+* `BusinessInformationEmail`
+* `BusinessInformationPhone`
 
 ---
 
@@ -28,15 +31,15 @@ User classification is determined through assigned roles rather than through sep
 
 ## 2.2 Why All Users Are Represented in One Entity
 
-The system may contain users with completely different roles, such as customers, sellers
+The system may contain users with completely different roles, such as customers, sellers , Store Manager , And So on .... 
 
-Despite their different classifications, they still share common account information.
+Despite their different classifications, they still share common account information and shared attributes. 
 
 Therefore, creating separate entities for each user type would unnecessarily separate users who share the same standard account information.
 
 Instead, the system maintains one `User` entity and determines the user's classification through role assignments.
 
-### Business Rules
+### THE BUSINESS RULES WE RELIED ON
 
 #### BR-007
 
@@ -94,8 +97,6 @@ This allows a user to have multiple roles without duplicating the user's common 
 
 It also allows new roles to be introduced without changing the structure of the `User` entity.
 
-> **Relationship / Normalization Diagram**
-
 ---
 
 # 4. User–Role Relationship
@@ -151,7 +152,7 @@ Separating roles from users is also required because roles have their own indepe
 
 A single user may simultaneously have different roles, and those roles must remain independent from one another.
 
-### Business Rules
+### THE BUSINESS RULES WE RELIED ON
 
 #### BR-002
 
@@ -245,7 +246,7 @@ Roles and role assignments are subject to lifecycle changes.
 
 Roles may be changed or removed over time, but historical business records must remain preserved.
 
-### Business Rules
+### THE BUSINESS RULES WE RELIED ON
 
 #### BR-012
 
@@ -325,7 +326,7 @@ The user must explicitly select the role under which they want to operate.
 
 Only one role context may be active for a user at a time.
 
-### Business Rules
+### THE BUSINESS RULES WE RELIED ON
 
 #### BR-017
 
@@ -386,7 +387,7 @@ For example:
 
 Therefore, business information should not be stored directly inside the `User` entity.
 
-### Business Rules
+### THE BUSINESS RULES WE RELIED ON
 
 #### BR-010
 
@@ -427,7 +428,7 @@ Therefore, it provides the appropriate context for business information.
 
 ---
 
-# 14. UserRole– and –Business Information Relationship
+# 14. UserRole and Business Information Relationship
 
 Not every `UserRole` requires business information.
 
@@ -476,11 +477,15 @@ The data type and constraints will be documented separately.
 
 Stores the user's first name in the system.
 
+### `MeddleName`
+
+Store the user's first name in the system 
+
 ### `LastName`
 
 Stores the user's last name in the system.
 
-Together, `FirstName` and `LastName` represent the user's name within the system.
+Together, `FirstName` and `MeddleName` and `LastName` represent the user's name within the system.
 
 ---
 
@@ -538,7 +543,31 @@ Email verification is an important part of validating the account before access.
 
 ---
 
-## 15.7 Personal Information
+### 15.7 Recovery Email
+
+The recovery email is an additional email address associated with the primary account email.
+
+It is used for account recovery purposes, such as:
+- Recovering access to the account.
+- Regaining access if the primary email account is compromised or hacked.
+- Recovering the account in case the user forgets the primary email address.
+- Providing an alternative way to verify account ownership.
+
+The recovery email should also be **unique** to ensure that it cannot be associated with multiple accounts.
+
+---
+
+## 15.8 Recovery Email Verification
+
+### `RecoveryEmailVerification`
+
+Used to determine whether the user's email/account has been properly verified before allowing the user to enter the system.
+
+Email verification is an important part of validating the account before access.
+
+---
+
+## 15.9 Personal Information
 
 ### `Gender`
 
@@ -552,7 +581,7 @@ Stores the user's date of birth.
 
 ---
 
-## 15.8 Account Timestamps
+## 15.10 Account Timestamps
 
 ### `CreatedAt`
 
