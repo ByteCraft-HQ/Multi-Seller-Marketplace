@@ -868,7 +868,11 @@ Workdays will be discussed separately in the future.
 
 `WorkplaceName` represents the name of the workplace associated with the business information.
 
->>![012-BUSINESSINFORMATION-ATTRIBUTES](/DOCUMINTATION/USER-DOMAIN/IMAGES/012-BUSINESSINFORMATION-ATTRIBUTES.svg)
+> ** Business Information Attributes Model **
+>
+>![012-BUSINESSINFORMATION-ATTRIBUTES](/DOCUMINTATION/USER-DOMAIN/IMAGES/012-BUSINESSINFORMATION-ATTRIBUTES.svg)
+
+> **All Business Information attributes, along with the Business Information domain itself, will be fully documented, defined, and maintained within the *Business Information Domain*.**
 
 ---
 
