@@ -892,10 +892,6 @@ The Users Domain contains the following primary relationships:
 10. UserRole status applies only to the specific role assignment.
 11. A user may have multiple assigned roles but only one active role context at a time.
 
-> **Complete Users Domain Model**
->
-> *Add the complete Users Domain logical model image here.*
-
 ---
 
 # 22. Core Design Principles
@@ -916,6 +912,6 @@ The Users Domain follows the following principles:
 12. A user can have multiple assigned roles but only one active role context at a time.
 13. The `ActiveNow` attribute identifies the currently active role assignment.
 14. Multi-valued attributes such as user phone numbers and business information emails and phone numbers are separated into dedicated entities.
->**USER-DOMAIN-LOGICAL-MODEL**
+>**COMPLETE USER-DOMAIN-LOGICAL-MODEL**
 >
 >![013-USER-DOMAIN-LOGICAL-MODEL](/DOCUMINTATION/USER-DOMAIN/IMAGES/013-USER-DOMAIN-LOGICAL-MODEL.svg)
