@@ -1,3 +1,5 @@
+# Version 0.0.1
+
 # Users Domain — Logical Model Documentation
 
 ## 1. Domain Overview
@@ -634,8 +636,9 @@ Therefore, `UserId` has two roles within the phone number table:
 2. It is a **Foreign Key** referencing `UserId` in the `User` table.
 
 This allows multiple phone numbers to be associated with the same user while maintaining the relationship with the corresponding user account.
-
->>![008-USER-ATTRIBUTES](/DOCUMINTATION/USER-DOMAIN/IMAGES/008-USER-ATTRIBUTES.svg)
+>**User Attributes Model**
+>
+>![008-USER-ATTRIBUTES](/DOCUMINTATION/USER-DOMAIN/IMAGES/008-USER-ATTRIBUTES.svg)
 
 ---
 
@@ -711,7 +714,8 @@ The system must prevent the same user from simultaneously operating under multip
 For example, a user should not be able to operate under one role from one device while simultaneously operating under another role from another device.
 
 Only one assigned role can be active for the user at a time.
-
+> ** User Role Attributes Model ** 
+>
 >![009-USERROLE-ATTRIBUTES](/DOCUMINTATION/USER-DOMAIN/IMAGES/009-USERROLE-ATTRIBUTES.svg)
 
 ---
@@ -765,7 +769,8 @@ It must not be confused with:
 * `RoleCategory.Status`, which represents the status of the role category.
 
 The role maintains its own independent status.
-
+> ** Role Attributes Model **
+>
 >![010-ROLE-ATTRIBUTES](/DOCUMINTATION/USER-DOMAIN/IMAGES/010-ROLE-ATTRIBUTES.svg)
 
 ---
@@ -799,7 +804,8 @@ A role category represents the classification under which roles are organized.
 `Status` represents the status of the role category itself.
 
 This status belongs to the `RoleCategory` entity and is independent from the status of an individual role or a user's role assignment.
-
+> ** Role Category Attributes Model ** 
+>
 >![011-ROLECATEGORY-ATTRIBUTES](/DOCUMINTATION/USER-DOMAIN/IMAGES/011-ROLECATEGORY-ATTRIBUTES.svg)
 
 ---
