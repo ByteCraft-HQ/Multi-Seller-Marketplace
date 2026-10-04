@@ -545,9 +545,9 @@ In this case:
 This allows the system to control the state of the assignment independently from the permission definition itself.
 
 ---
-
-
-
+>** LOGICAL MODEL UPDATTE **
+>
+>![PERMISSION-DOMAIL-LOGICAL-DOMAIL](/DOCUMINTATION/PERMESSIONS-DOMAIN/IMAGES/PERMESSION-DOMAIN-LOGICAL-MODEL.svg)
 ---
 
 ```
