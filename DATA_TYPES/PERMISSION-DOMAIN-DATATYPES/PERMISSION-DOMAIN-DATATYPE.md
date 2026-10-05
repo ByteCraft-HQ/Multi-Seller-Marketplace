@@ -124,3 +124,8 @@ The `Status` field follows the same rules and reasoning as the `Permission Statu
 It is used to represent the current state of the role-permission relationship and is controlled by the system.
 
 Therefore, `VARCHAR(20)` is sufficient for the predefined status values.
+
+
+>** PERMISSION DOMAIN MODEL **
+>
+>![001-PERMISSION-DOMAIN-DATATYPES](/DATAT_YPES/PERMISSION-DOMAIN-DATATYPE/001-PERMISSION-DOMAIN-DATATYPES.svg)
