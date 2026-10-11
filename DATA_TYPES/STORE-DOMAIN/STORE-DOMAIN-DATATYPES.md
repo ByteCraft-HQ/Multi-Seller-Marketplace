@@ -689,4 +689,5 @@ Verification should reflect the result of the actual verification process. Wheth
 | `StoreSocialMedia` | `StoreSocialMediaStatus` | `VARCHAR(20)` | Represents the state of the store's association |
 | `StoreSocialMedia` | `StoreSocialMediaLinkVerification` | `BIT` | Indicates link verification |
 
-
+>**Store Domain DataTypes**
+>![001-STORE-DOMAIN-DATATYPES](/DATA_TYPES/STORE-DOMAIN/STORE-DOMAIN-DATATYPES.svg)
