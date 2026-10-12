@@ -394,4 +394,3 @@ BusinessInformation.BusinessInformationId
 | BusinessInformation → BusinessInformationEmail | 1-to-Many    |
 
 The main idea is that **many-to-many relationships are resolved using a junction table**, while **multi-valued attributes are moved into separate tables**, and **one-to-many relationships are represented using foreign keys on the many side**.
-S
