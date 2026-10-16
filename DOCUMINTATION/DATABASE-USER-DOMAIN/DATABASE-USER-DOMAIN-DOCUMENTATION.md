@@ -616,8 +616,19 @@ The detailed behavior of category changes, category division, management respons
 - The value is required and shall not be `NULL`.
 - The attribute is intended to represent the category's status as its circumstances change over time.
 - The permitted status values and their meanings will be specified in the appropriate design stage.
+- The attribute is classified as a simple attribute.
 
-**Attribute Classification:** Simple Attribute
+#### Defined Status Values
+
+| Status Value | Meaning |
+|---|---|
+| `ACTIVE` | The category is operational and currently active. |
+| `INACTIVE` | The category is not currently operational. |
+| `UNDER_REVIEW` | The category is currently under review. |
+| `NO_LONGER_AVAILABLE` | The category is no longer available. |
+| `AVAILABLE_UNDER_OBSERVATION` | The category remains available but is under observation. |
+| `TEMPORARILY_SUSPENDED` | The category has been temporarily suspended. |
+
 
 ### 2.3 `CategoryManager`
 
