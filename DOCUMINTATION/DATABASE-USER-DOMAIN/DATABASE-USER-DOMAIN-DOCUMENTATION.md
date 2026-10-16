@@ -424,8 +424,129 @@ This document establishes the intended purpose of the table and its attributes w
 
 The complete account lifecycle, including the detailed behavior of account statuses and the deletion process, will be documented in a separate lifecycle document.
 
-![001-DATABASE-USERS-USER-DOMAIN-MODEL](/DOCUMINTATION/DATABASE-USER-DOMAIN/IMAGES/001-DATABASE-USERS-USER-DOMAIN-MODEL.svg)
+![001-DATABASE-USERS-USER-DOMAIN-MODEL](\DOCUMINTATION\DATABASE-USER-DOMAIN\IMAGES\001-DATABASE-USERS-USER-DOMAIN-MODEL.svg)
 
 ---
 
+# ROLES Table Documentation
+
+## 1. Table Overview
+
+**Table:** `ROLES`  
+**Scope:** Table Purpose, Business Rules, and Entity Discovery
+
+### 1.1 Purpose
+
+The `ROLES` table stores the definitions of the roles supported by the system.
+
+The system supports multiple user categories, and a registered user may be assigned multiple roles simultaneously. Therefore, role definitions are maintained independently rather than being embedded directly within the `USERS` table.
+
+Keeping role definitions in a separate table supports:
+
+- **Centralized role definitions:** Role information is maintained in one dedicated location.
+- **Reduced duplication and inconsistency:** Shared role definitions do not need to be repeated within individual user records.
+- **Extensibility:** New roles can be introduced as the system supports additional user categories and business capabilities.
+- **Future permission management:** Role-related permissions and additional role details can be addressed as the authorization model evolves.
+- **Separation of responsibilities:** Defining a role is distinct from assigning a role to a user and managing that assignment's lifecycle.
+
+### 1.2 Business Rules
+
+The `ROLES` entity is documented in the context of the following business rules:
+
+- **BR-001:** A registered user may be assigned multiple roles simultaneously.
+- **BR-012:** Changing or removing a role shall not affect existing historical business records.
+- **BR-013:** Historical business records shall remain preserved regardless of the role's current status.
+- **BR-014:** Role assignments shall support Soft Delete instead of physical deletion.
+- **BR-016:** Inactive roles shall not perform new business operations while preserving historical records.
+
+These rules establish the need to distinguish role definitions from role assignments and to preserve historical business records independently of current role activity.
+
+### 1.3 Entity Identification
+
+The `ROLES` table represents the role definitions available within the system.
+
+Each role definition has a name, a status, and a creation timestamp. The role name identifies the defined role and is intended to be unique and mandatory.
+
+The role's status represents its current state, while the creation timestamp records when the role was created.
+
+### 1.4 Scope Boundaries
+
+This document establishes the purpose and identity of the `ROLES` entity. Detailed decisions concerning relationships, keys, functional dependencies, normalization, edge cases, data types, constraints, lifecycle behavior, and indexing will be documented in their designated stages.
+
+# ROLES Table Documentation
+
+## 1. Table Overview
+
+**Table:** `ROLES`  
+**Scope:** Table Purpose, Business Rules, and Attribute Descriptions
+
+### 1.1 Purpose
+
+The `ROLES` table stores the definitions of the roles supported by the system.
+
+Since a registered user may be assigned multiple roles simultaneously and the system supports multiple user categories, role definitions are maintained separately from the `USERS` table.
+
+This separation supports centralized role management, reduces duplicated role information and potential inconsistencies, and allows new roles and role-related permissions to be introduced as the system evolves.
+
+It also separates the definition of a role from its assignment to a user. These represent different responsibilities and will be documented accordingly in the relevant stages.
+
+## 2. Attribute Descriptions
+
+### 2.1 `RoleName`
+
+**Purpose:** Identifies the name of a role defined within the system.
+
+**Description:**
+
+- The attribute stores the name associated with a role definition.
+- It is required and shall not contain a `NULL` value.
+- Each role must have a unique name so that different role definitions can be distinguished.
+- If an existing role is divided into multiple distinct roles, each resulting role shall have its own distinct name.
+- The role name provides a human-readable identifier for the role and can be used to identify the role when working with its associated permissions.
+
+**Attribute Classification:** Simple Attribute
+
+### 2.2 `RoleStatus`
+
+**Purpose:** Represents the current status of a role definition.
+
+**Description:**
+
+- The attribute indicates the current state of the role.
+- It is required and shall not contain a `NULL` value.
+- Its value must belong to the set of predefined statuses specified for the system.
+- The attribute describes the status of the role definition itself. The activity status of an individual role assignment is a separate concern and will be documented in the relevant stage.
+
+#### Defined Status Values
+
+| Status | Meaning |
+|---|---|
+| `PENDING` | The role has been created and is awaiting completion of registration or activation. |
+| `UNDERREVIEW` | The role is currently undergoing review. |
+| `ACTIVE` | The role is fully active and operating normally. |
+| `DEACTIVATED` | The role has been deactivated and is no longer active. |
+| `DELETED` | The role has been logically deleted and is no longer active. |
+
+**Attribute Classification:** Simple Attribute
+
+### 2.3 `RoleCreatedAt`
+
+**Purpose:** Records when the role was created.
+
+**Description:**
+
+- The attribute stores the creation timestamp of the role.
+- It is required and shall not contain a `NULL` value.
+- It provides a record of when the role definition was initially created.
+- Its detailed behavior in lifecycle scenarios will be addressed in the `Lifecycle and Decision Finalization` stage.
+
+**Attribute Classification:** Simple Attribute
+
+## 3. Summary
+
+The `ROLES` table provides a centralized definition of the roles supported by the system. Its documented attributes identify each role, represent its current status, and record its creation timestamp.
+
+The definition of a role remains distinct from the assignment of that role to a user, allowing role definitions and individual role assignments to be addressed separately throughout the database design process.
+
+![002-DATABASE-ROLES-USER-DOMAIN-MODEL](/DOCUMINTATION/DATABASE-USER-DOMAIN/IMAGES/002-DATABASE-ROLES-USER-DOMAIN-MODEL.svg)
 
