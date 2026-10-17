@@ -616,19 +616,8 @@ The detailed behavior of category changes, category division, management respons
 - The value is required and shall not be `NULL`.
 - The attribute is intended to represent the category's status as its circumstances change over time.
 - The permitted status values and their meanings will be specified in the appropriate design stage.
-- The attribute is classified as a simple attribute.
 
-#### Defined Status Values
-
-| Status Value | Meaning |
-|---|---|
-| `ACTIVE` | The category is operational and currently active. |
-| `INACTIVE` | The category is not currently operational. |
-| `UNDER_REVIEW` | The category is currently under review. |
-| `NO_LONGER_AVAILABLE` | The category is no longer available. |
-| `AVAILABLE_UNDER_OBSERVATION` | The category remains available but is under observation. |
-| `TEMPORARILY_SUSPENDED` | The category has been temporarily suspended. |
-
+**Attribute Classification:** Simple Attribute
 
 ### 2.3 `CategoryManager`
 
@@ -665,3 +654,248 @@ Its attributes identify each category, represent its current status, identify it
 The table establishes the basis for category management while leaving relationship design, normalization, implementation details, and final lifecycle decisions to their designated stages.
 
 ![003-DATABASE-ROLECATEGORY-USER-DOMAIN-MODEL](/DOCUMINTATION/DATABASE-USER-DOMAIN/IMAGES/003-DATABASE-ROLECATEGORY-USER-DOMAIN-MODEL.svg)
+
+---
+
+# BUSINESS_INFORMATION Table Documentation
+
+## 1. Table Overview
+
+**Domain:** `USER-DOMAIN`  
+**Table:** `BUSINESS_INFORMATION`  
+**Scope:** Table Purpose, Business Rules, and Attribute Descriptions
+
+### 1.1 Purpose
+
+The `BUSINESS_INFORMATION` table stores business-related information for users whose assigned roles require a business profile.
+
+The table is maintained separately from the `USERS` entity in accordance with the following business rules:
+
+- **BR-010:** Business information shall be maintained separately from the User entity.
+- **BR-011:** Only roles requiring business information shall be associated with business profiles.
+
+The table is intended to maintain business contact information, identity verification information, business location details, and business registration information.
+
+Examples include sellers who require business-related contact details and identity verification to operate within the system.
+
+Maintaining business information separately allows account information and business information to serve distinct purposes. For example, a user's account email is separate from the email addresses maintained for business communication.
+
+### 1.2 Table Responsibilities
+
+The `BUSINESS_INFORMATION` table is intended to support the following responsibilities:
+
+- Maintaining business contact email addresses and phone numbers.
+- Recording the verification status of business contact information.
+- Storing national identification information and its supporting image.
+- Maintaining birth certificate image information for identity documentation.
+- Recording country of birth and country of citizenship.
+- Maintaining business location and postal code information.
+- Identifying the type of business and its legally registered name.
+- Storing business registration documentation and the company registration number.
+
+Detailed decisions concerning relationships, verification workflows, access permissions, document handling, and lifecycle behavior will be addressed in their designated stages.
+
+## 2. Attribute Descriptions
+
+### 2.1 `BusinessInformationEmail`
+
+**Purpose:** Stores email addresses used for business-related communication.
+
+**Description:**
+
+- Stores email addresses associated with the business information profile.
+- The attribute is multi-valued because a profile may contain multiple business email addresses.
+- A business email address may be the same as the user's `UserEmail`.
+- Business email addresses are not required to be unique across all business profiles.
+- The same email address may be associated with a maximum of three people across the system.
+- Business email addresses are intended to support communication with customers, system administrators, and other relevant parties.
+- Business email addresses are maintained independently from the account's primary email address.
+
+**Attribute Classification:** Multi-Valued Attribute
+
+### 2.2 `BusinessInformationEmailVerification`
+
+**Purpose:** Records the verification status of business email addresses.
+
+**Description:**
+
+- Indicates whether a business email address has been verified.
+- Supports verification of business contact information before it is treated as verified by the system.
+- The attribute is required and shall not contain a `NULL` value.
+- The specific verification values and the relationship between individual email addresses and their verification statuses will be addressed in the relevant design stages.
+
+**Attribute Classification:** To be finalized in the relevant attribute and relationship design stages.
+
+### 2.3 `NationalId`
+
+**Purpose:** Stores the national identification number associated with the individual represented by the business information profile.
+
+**Description:**
+
+- Stores the individual's national identification number.
+- The attribute is required and shall not contain a `NULL` value.
+- Each national identification number must be unique across the system.
+- It supports identity verification and helps establish the identity of the individual associated with the business profile.
+- It may also provide information relevant to identifying the issuing country's identification system, subject to the applicable identification format.
+
+**Attribute Classification:** Simple Attribute
+
+### 2.4 `NationalIdImage`
+
+**Purpose:** Stores an image of the national identification document as supporting identity evidence.
+
+**Description:**
+
+- Contains the image associated with the individual's national identification document.
+- Supports verification of the identification information provided for the business profile.
+- The attribute is required and shall not contain a `NULL` value.
+
+**Attribute Classification:** Simple Attribute
+
+### 2.5 `BirthCertificateImage`
+
+**Purpose:** Stores an image of the individual's birth certificate as supporting identity documentation.
+
+**Description:**
+
+- Contains the image of the individual's birth certificate.
+- Provides additional documentary information to support identity verification.
+- The attribute is required and shall not contain a `NULL` value.
+
+**Attribute Classification:** Simple Attribute
+
+### 2.6 `BusinessInformationPhoneNumber`
+
+**Purpose:** Stores phone numbers used for business-related communication.
+
+**Description:**
+
+- Stores phone numbers associated with the business information profile.
+- The attribute is multi-valued because a profile may contain multiple phone numbers.
+- Phone numbers must be unique across the system and must not be associated with more than one person.
+- The attribute is intended to support communication with customers and other relevant parties.
+
+**Attribute Classification:** Multi-Valued Attribute
+
+### 2.7 `BusinessInformationPhoneNumberVerification`
+
+**Purpose:** Records the verification status of business phone numbers.
+
+**Description:**
+
+- Indicates whether a business phone number has been verified.
+- Supports verification of business contact information.
+- The attribute is required and shall not contain a `NULL` value.
+- The specific verification values and the relationship between individual phone numbers and their verification statuses will be addressed in the relevant design stages.
+
+**Attribute Classification:** To be finalized in the relevant attribute and relationship design stages.
+
+### 2.8 `CountryOfBirth`
+
+**Purpose:** Records the country in which the individual was born.
+
+**Description:**
+
+- Stores the individual's country of birth.
+- The value is required and shall not be `NULL`.
+- The information is intended to correspond to the individual's supporting identification documentation, including the national identification document and birth certificate.
+
+**Attribute Classification:** Simple Attribute
+
+### 2.9 `CountryOfCitizenship`
+
+**Purpose:** Records the individual's country of citizenship.
+
+**Description:**
+
+- Identifies the country of which the individual is a citizen.
+- The attribute is required and shall not contain a `NULL` value.
+
+**Attribute Classification:** Simple Attribute
+
+### 2.10 `BusinessCountry`
+
+**Purpose:** Identifies the country in which the business operates or is located.
+
+**Description:**
+
+- Stores the country associated with the business location.
+- The attribute is required and shall not contain a `NULL` value.
+- Supports identification of the business's country for business-related documentation and location information.
+
+**Attribute Classification:** Simple Attribute
+
+### 2.11 `BusinessPostalCode`
+
+**Purpose:** Stores the postal code associated with the business location.
+
+**Description:**
+
+- Records the postal code associated with the business.
+- The attribute is required and shall not contain a `NULL` value.
+- Supports business location identification and relevant administrative or registration processes.
+
+**Attribute Classification:** Simple Attribute
+
+### 2.12 `BusinessType`
+
+**Purpose:** Identifies the type or structure of the business associated with the profile.
+
+**Description:**
+
+- Specifies the nature of the business arrangement.
+- Distinguishes between different business types, such as an individual operating independently, an individual operating within a business, or a business operating through a store.
+- The attribute is required and shall not contain a `NULL` value.
+- The complete set of permitted business types will be specified in the relevant design stage.
+
+**Attribute Classification:** Simple Attribute
+
+### 2.13 `LegalBusinessName`
+
+**Purpose:** Stores the legally registered name of the business.
+
+**Description:**
+
+- Records the business name recognized in official registration or governmental documentation.
+- The legal business name may differ from the public-facing name of the business or store.
+- The attribute is required and shall not contain a `NULL` value.
+
+**Attribute Classification:** Simple Attribute
+
+### 2.14 `BusinessRegistrationDocument`
+
+**Purpose:** Stores the business registration document used to support verification of the business's registration information.
+
+**Description:**
+
+- Contains the document associated with the business's registration.
+- Supports verification of the business information submitted to the system.
+- The attribute is required and shall not contain a `NULL` value.
+
+**Attribute Classification:** Simple Attribute
+
+### 2.15 `CompanyRegistrationNumber`
+
+**Purpose:** Stores the registration number associated with the company or registered business.
+
+**Description:**
+
+- Records the company's or registered business's registration number.
+- Supports identification and verification of the business registration information.
+- The attribute is required and shall not contain a `NULL` value.
+
+**Attribute Classification:** Simple Attribute
+
+## 4. Summary
+
+The `BUSINESS_INFORMATION` table maintains business-related contact, identity, location, and registration information separately from the user's common account information.
+
+It is intended for users whose assigned roles require business profiles, in accordance with BR-010 and BR-011.
+
+The documented attributes establish the current scope of business information while leaving detailed relationships, implementation decisions, and lifecycle behavior to their designated design stages.
+
+![004-DATABASE-BUSINESS-INFORMATION-USER-DOMAIN-MODEL](/DOCUMINTATION/DATABASE-USER-DOMAIN/IMAGES/004-DATABASE-BUSINESS-INFORMATION-USER-DOMAIN-MODEL.svg)
+
+
+## 5. FINAL LOGICAL MODEL
+![]()
