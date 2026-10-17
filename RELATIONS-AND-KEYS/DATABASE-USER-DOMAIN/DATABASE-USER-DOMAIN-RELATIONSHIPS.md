@@ -56,6 +56,8 @@ It also establishes that every user must have at least one role, while allowing 
 
 The implementation of this many-to-many relationship will be addressed in the `Relationship Solution` stage.
 
+![001-DATABASE-USERS-ROLES-USER-DOMAIN-RELATIONSHIP-AND-KEYS](/RELATIONS-AND-KEYS/DATABASE-USER-DOMAIN/RELATIONSHIP-IMAGE/001-DATABASE-USERS-ROLES-USER-DOMAIN-RELATIONSHIP-AND-KEYS.svg)
+
 ---
 
 ## 3. Relationship 2: ROLES and ROLE_CATEGORIES
@@ -100,6 +102,8 @@ This relationship ensures that roles are organized under defined categories whil
 It also establishes that each role has one specific category, preventing a role from being classified under multiple categories simultaneously.
 
 The implementation of this relationship will be addressed in the `Relationship Solution` stage.
+
+![002-DATABASE-ROLES-ROLECATEGORY-USER-DOMAIN-RELATIONSHIP-AND-KEYS](/RELATIONS-AND-KEYS/DATABASE-USER-DOMAIN/RELATIONSHIP-IMAGE/002-DATABASE-ROLES-ROLECATEGORY-USER-DOMAIN-RELATIONSHIP-AND-KEYS.svg)
 
 ---
 
@@ -155,6 +159,8 @@ The specific roles that require business information will be identified in a sep
 
 The implementation of this relationship will be addressed in the `Relationship Solution` stage.
 
+![003-DATABASE-USERS-BSUINESSINFORMATION-USER-DOMAIN-REATIONSHIP-AND-KEYS](/RELATIONS-AND-KEYS/DATABASE-USER-DOMAIN/RELATIONSHIP-IMAGE/003-DATABASE-USERS-BSUINESSINFORMATION-USER-DOMAIN-REATIONSHIP-AND-KEYS.svg)
+
 ---
 
 ## 5. Consolidated Relationship Summary
@@ -181,3 +187,6 @@ The following topics remain assigned to their designated stages:
 - **Indexing Basics:** Documenting indexing decisions.
 
 The relationships documented here represent the current design decisions. Any required changes will be reviewed in the appropriate stage rather than assumed in advance.
+
+![000-USER-DOMAIN-RELATIONSHIP-AND-KEYS](/RELATIONS-AND-KEYS/DATABASE-USER-DOMAIN/RELATIONSHIP-IMAGE/000-USER-DOMAIN-RELATIONSHIP-AND-KEYS.svg)
+
