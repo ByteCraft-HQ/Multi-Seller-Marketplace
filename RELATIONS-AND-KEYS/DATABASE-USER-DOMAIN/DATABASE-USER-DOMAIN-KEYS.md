@@ -208,3 +208,108 @@ This design makes role-name changes easier to manage, preserves a stable identif
 **Assumptions:** `RoleID` and `RoleName` are unique and non-null. The database enforces these constraints, and `RoleID` remains unchanged throughout the lifetime of a role record.
 
 ![002-DATABASE-ROLES-USER-DOMAIN-RELATIONSHIP-AND-KEYS](/RELATIONS-AND-KEYS/DATABASE-USER-DOMAIN/KEYS-IMAGES/002-DATABASE-ROLES-USER-DOMAIN-RELATIONSHIP-AND-KEYS.svg)
+
+---
+
+# User Domain — Table 3: RoleCategory
+
+## 1. Super Keys
+
+The following attribute is considered the Super Key in the current design:
+
+- `RoleCategoryName`
+
+`RoleCategoryName` can uniquely identify each record, assuming every category name is unique and non-null.
+
+A Super Key is an attribute or combination of attributes that uniquely identifies a record.
+
+Since `RoleCategoryName` is unique by itself, it is also a minimal Super Key.
+
+## 2. Candidate Key
+
+The Candidate Key is:
+
+- `RoleCategoryName`
+
+It independently identifies each role category and contains no unnecessary attributes.
+
+A Candidate Key is a minimal Super Key that uniquely identifies a record.
+
+## 3. Primary Key (PK)
+
+**Selected Primary Key: `RoleCategoryName`**
+
+`RoleCategoryName` is selected as the Primary Key because it uniquely identifies each category and is sufficient for the current requirements of the table.
+
+Reasons for this choice:
+
+- **Uniqueness:** Each category has a distinct name.
+- **Simplicity:** No additional identifier is required for the current design.
+- **Suitability:** The table is expected to contain a relatively small number of records.
+- **Maintainability:** Changes are expected to be infrequent, and the number of referencing tables is limited.
+
+## 4. Natural Key
+
+`RoleCategoryName` is considered a Natural Key because it represents the actual name of the category within the system.
+
+It has a meaningful business value rather than being an artificial identifier generated solely for database purposes.
+
+However, its suitability as a Primary Key depends on the category names remaining unique and on the system's ability to handle name changes correctly.
+
+## 5. Why RoleCategoryID Is Not Used as a Surrogate Key
+
+A separate `RoleCategoryID` is not introduced in the current design because it is not considered necessary for the table's present requirements.
+
+The table is expected to have a limited number of records, relatively infrequent name changes, and a limited number of referencing tables.
+
+Introducing a Surrogate Key would add another attribute without providing a sufficiently important benefit for the current requirements.
+
+However, this decision can be revisited if the system's requirements change.
+
+## 6. Why RoleCategoryName Is Preferred as the Primary Key
+
+Although a Surrogate Key could be introduced, `RoleCategoryName` is considered sufficient for the current design.
+
+The main reasons are:
+
+- Category names are expected to remain unique.
+- Name changes are expected to be infrequent.
+- A limited number of referencing tables reduces the scope of potential updates.
+- An appropriate index can support efficient searches by category name.
+
+Using a text-based Primary Key may require additional storage compared with a compact numeric identifier. However, for a small table, this difference may not be significant.
+
+If `RoleCategoryName` changes, the database must handle the update correctly, including any related Foreign Keys. Appropriate update rules, such as `ON UPDATE CASCADE`, may be used where suitable.
+
+## 7. Alternate Key
+
+No Alternate Key is identified in the current design because `RoleCategoryName` is the only Candidate Key.
+
+`RoleCategoryID` is not classified as an Alternate Key because it has not been introduced into the table.
+
+If a unique, non-null `RoleCategoryID` is added in the future and both attributes qualify as Candidate Keys, one can be selected as the Primary Key while the other becomes an Alternate Key.
+
+## 8. Foreign Key (FK)
+
+Foreign Keys referencing `RoleCategoryName` will be identified when defining the relationships between the relevant tables in the User Domain.
+
+Any referencing tables must maintain referential integrity when a category name is updated or when a category is removed.
+
+## 9. Final Key Classification
+
+| Attribute | Classification |
+|---|---|
+| `RoleCategoryName` | Primary Key, Candidate Key, Natural Key, Super Key |
+| `RoleCategoryID` | Not present in the current design |
+
+## 10. Final Design Decision
+
+`RoleCategoryName` is selected as the Primary Key because it provides a meaningful and unique identifier that satisfies the table's current requirements.
+
+A separate Surrogate Key is not introduced because the expected table size is small, changes are infrequent, and the number of referencing tables is limited.
+
+This decision can be reconsidered if the system grows, the requirements change, or maintaining a name-based key becomes unnecessarily complex.
+
+**Assumptions:** `RoleCategoryName` is unique, non-null, and suitable for the system's naming rules. Any changes to its value must preserve referential integrity.
+
+![003-DATABASE-ROLECATEGORY-USER-DOMAIN-REALATIONSHIP-AND-KEYS](/RELATIONS-AND-KEYS/DATABASE-USER-DOMAIN/KEYS-IMAGES/003-DATABASE-ROLECATEGORY-USER-DOMAIN-REALATIONSHIP-AND-KEYS.svg)
