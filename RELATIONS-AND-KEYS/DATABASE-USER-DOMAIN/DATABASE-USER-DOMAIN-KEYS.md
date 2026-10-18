@@ -207,4 +207,4 @@ This design makes role-name changes easier to manage, preserves a stable identif
 
 **Assumptions:** `RoleID` and `RoleName` are unique and non-null. The database enforces these constraints, and `RoleID` remains unchanged throughout the lifetime of a role record.
 
-![002-DATABASE-ROLES-USER-DOMAIN-RELATIONSHIP-AND-KEYS](/RELATIONS-AND-KEYS/DATABASE-USER-DOMAIN/KEYS-IMAGES/002-DATABASE-ROLES-USER-DOMAIN-RELATIONSHIP-AND-KEYS.drawio.svg)
+![002-DATABASE-ROLES-USER-DOMAIN-RELATIONSHIP-AND-KEYS](/RELATIONS-AND-KEYS/DATABASE-USER-DOMAIN/KEYS-IMAGES/002-DATABASE-ROLES-USER-DOMAIN-RELATIONSHIP-AND-KEYS.svg)
