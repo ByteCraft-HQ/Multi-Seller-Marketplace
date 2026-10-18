@@ -83,3 +83,5 @@ A Foreign Key references a key in another table, or a suitable key in the same t
 | `PhoneNumber` | Potential Candidate Key, Alternate Key, Natural Key, subject to the table's constraints |
 
 **Final Decision:** `UserID` is selected as the Primary Key because it is a stable, simple, system-generated identifier. `Email` is retained as an Alternate Key, while `PhoneNumber` is classified according to its uniqueness and the constraints of the table.
+
+![001-DATABASE-USERS-USER-DOMAIN-RELATIONSHIP-AND-KEYS](/RELATIONS-AND-KEYS/DATABASE-USER-DOMAIN/KEYS-IMAGES/001-DATABASE-USERS-USER-DOMAIN-RELATIONSHIP-AND-KEYS.svg)
