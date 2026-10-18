@@ -313,3 +313,106 @@ This decision can be reconsidered if the system grows, the requirements change, 
 **Assumptions:** `RoleCategoryName` is unique, non-null, and suitable for the system's naming rules. Any changes to its value must preserve referential integrity.
 
 ![003-DATABASE-ROLECATEGORY-USER-DOMAIN-REALATIONSHIP-AND-KEYS](/RELATIONS-AND-KEYS/DATABASE-USER-DOMAIN/KEYS-IMAGES/003-DATABASE-ROLECATEGORY-USER-DOMAIN-REALATIONSHIP-AND-KEYS.svg)
+
+---
+
+# User Domain — Table 4: BusinessInformation
+
+## 1. Super Keys
+
+The following attributes are considered potential Super Keys based on the initial design:
+
+- `BusinessInformationId`
+- `BusinessInformationNationalId`
+
+Both attributes can uniquely identify a record, assuming each is unique and non-null.
+
+`BusinessInformationEmail` and `BusinessInformationPhone` are not included in the final key classification for this table because they are treated as multi-valued attributes in the current design and will be addressed separately in the Relationship and Keys Solution.
+
+Although email addresses and phone numbers may be unique under certain constraints, they are not being considered keys of the final `BusinessInformation` table in the current design.
+
+A Super Key is an attribute or combination of attributes that uniquely identifies a record.
+
+## 2. Candidate Keys
+
+The Candidate Keys are:
+
+- `BusinessInformationId`
+- `BusinessInformationNationalId`
+
+Both attributes independently identify a record and are minimal Super Keys, assuming the required uniqueness and non-null constraints are enforced.
+
+Therefore, both qualify as Candidate Keys.
+
+## 3. Primary Key (PK)
+
+**Selected Primary Key: `BusinessInformationId`**
+
+`BusinessInformationId` is selected as the Primary Key because it provides a simple, internal identifier that does not expose sensitive personal information.
+
+Reasons for this choice:
+
+- **Reduced sensitivity:** The identifier does not directly reveal the business owner's National ID.
+- **Stability:** It can remain unchanged when business information is updated.
+- **Relationship management:** Related tables can reference an internal identifier instead of relying on sensitive personal information.
+- **Simplicity:** A dedicated identifier provides a consistent way to identify each record.
+
+Although `BusinessInformationNationalId` can technically qualify as a Candidate Key, it is not selected as the Primary Key because of its sensitive nature and the availability of a suitable alternative.
+
+Using a Surrogate Key does not automatically guarantee security. Access controls, appropriate data handling, and protection against unnecessary exposure remain important.
+
+## 4. Surrogate Key
+
+`BusinessInformationId` is classified as a Surrogate Key because it is an artificial identifier introduced for database identification purposes rather than a meaningful real-world business attribute.
+
+It serves as the Primary Key and provides a stable identifier for the record.
+
+## 5. Alternate Key
+
+`BusinessInformationNationalId` is classified as an Alternate Key because it is a Candidate Key that was not selected as the Primary Key.
+
+This classification assumes that the National ID is unique and non-null for every applicable record.
+
+## 6. Natural Key
+
+`BusinessInformationNationalId` is classified as a Natural Key because it is a real-world identifier with meaning outside the database.
+
+It can uniquely identify a record under the assumed constraints. However, being a Natural Key does not mean it must be selected as the Primary Key.
+
+In this design, it remains an Alternate Key rather than the Primary Key because it contains sensitive personal information.
+
+## 7. Email and Phone Attributes
+
+`BusinessInformationEmail` and `BusinessInformationPhone` are treated as multi-valued attributes in the current design.
+
+They are not included in the final key classification for the `BusinessInformation` table. Their representation, keys, and relationships will be addressed later in the **Relationship and Keys Solution**.
+
+No assumptions are made here about the specific keys that will be used for those attributes in the future design.
+
+## 8. Final Key Classification
+
+| Attribute | Classification |
+|---|---|
+| `BusinessInformationId` | Super Key, Candidate Key, Primary Key, Surrogate Key |
+| `BusinessInformationNationalId` | Super Key, Candidate Key, Alternate Key, Natural Key |
+| `BusinessInformationEmail` | Excluded from the final key classification of this table |
+| `BusinessInformationPhone` | Excluded from the final key classification of this table |
+
+## 9. Final Design Decision
+
+`BusinessInformationId` is selected as the Primary Key because it provides a stable, internal identifier without using sensitive personal information as the primary identifier for the record.
+
+`BusinessInformationNationalId` remains a Candidate Key, an Alternate Key, and a Natural Key, assuming uniqueness and non-null constraints are enforced.
+
+Email and phone attributes will be addressed separately in the Relationship and Keys Solution because they are treated as multi-valued attributes in the current design.
+
+**Assumptions:** `BusinessInformationId` is unique and non-null. `BusinessInformationNationalId` is also unique and non-null for every applicable record. These constraints must be enforced by the database.
+
+![004-DATABASE-BUSINESSINFORMATION-USER-DOMAIN-RELATION-AND-KEYS](/RELATIONS-AND-KEYS/DATABASE-USER-DOMAIN/KEYS-IMAGES/004-DATABASE-BUSINESSINFORMATION-USER-DOMAIN-RELATION-AND-KEYS.svg)
+
+---
+
+>
+>** Final Relation-And-Keys **
+>![000-DATABASE-USER-DOMAIN-RELATIONSHIP-AND-KEYS-END.svg](/RELATIONS-AND-KEYS/DATABASE-USER-DOMAIN/KEYS-IMAGES/000-DATABASE-USER-DOMAIN-RELATIONSHIP-AND-KEYS-END.svg)
+
