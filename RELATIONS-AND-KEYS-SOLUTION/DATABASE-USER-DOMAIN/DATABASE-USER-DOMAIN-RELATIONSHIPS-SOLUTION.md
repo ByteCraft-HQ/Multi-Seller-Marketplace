@@ -81,7 +81,7 @@ Each user-role assignment has an independent status. The assignment status must 
 
 The status model is illustrated below.
 
-**[Insert UserRoleStatus lifecycle/status diagram here]**
+![DATABASE-USER-DOMAIN-USERSTATUS-VS-USERROLESTATUS.svg](/RELATIONS-AND-KEYS-SOLUTION/DATABASE-USER-DOMAIN/RELATIONSHIP-IMAGERS/DATABASE-USER-DOMAIN-USERSTATUS-VS-USERROLESTATUS.svg)
 
 ### 5.2 `UserRoleActiveNow`
 
