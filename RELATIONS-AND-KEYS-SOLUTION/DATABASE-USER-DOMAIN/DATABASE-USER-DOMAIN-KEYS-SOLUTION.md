@@ -80,3 +80,46 @@ The composite key represents the business uniqueness of the assignment, but its 
 | Natural Key | None identified |
 
 ![001-DATABASE-USER-DOMAIN-USERS-AND-ROLES-RELATIONSHIP-AND-KEYS](/RELATIONS-AND-KEYS-SOLUTION/DATABASE-USER-DOMAIN/KEYS-IMAGES/001-DATABASE-USER-DOMAIN-USERS-AND-ROLES-RELATIONSHIP-AND-KEYS.svg)
+
+---
+
+# ROLE_CATEGORIES – ROLES Keys Solution
+
+## 1. Primary Key
+
+The `ROLES` table retains its existing Primary Key:
+
+- **Attribute:** `RoleId`
+- **Key Type:** Primary Key (PK)
+
+The existing Primary Key remains unchanged.
+
+## 2. Foreign Key
+
+The `ROLES` table will include the following Foreign Key:
+
+- **Attribute:** `RoleCategoryName`
+- **Key Type:** Foreign Key (FK)
+- **References:** `ROLE_CATEGORIES.RoleCategoryName`
+
+The foreign key references the Primary Key of the `ROLE_CATEGORIES` table.
+
+## 3. Mandatory Foreign Key
+
+`RoleCategoryName` must be `NOT NULL`.
+
+This requirement is necessary because every role must belong to exactly one role category according to the established business rules.
+
+Allowing `NULL` would permit a role to exist without an assigned category, violating the mandatory participation requirement of the relationship.
+
+The foreign key also ensures that the assigned category exists in `ROLE_CATEGORIES`.
+
+## 4. Final Key Summary
+
+| Attribute | Key Type | Requirement |
+|---|---|---|
+| `RoleId` | Primary Key (PK) | Retained as the existing Primary Key |
+| `RoleCategoryName` | Foreign Key (FK) | Mandatory; `NOT NULL` |
+
+No junction table is required for this relationship because each role belongs to exactly one category, while a category may contain multiple roles.
+
