@@ -211,3 +211,98 @@ Storing role identifiers in `ROLECATEGORIES` would not represent the One-to-Many
 - Junction Table: Not required
 
 ![002-DATABASE-USER-DOMAIN-ROLE-ROLECATEGORY-RELATIONSHIP-AND-KEYS-SOLUTION](/RELATIONS-AND-KEYS-SOLUTION/DATABASE-USER-DOMAIN/RELATIONSHIP-IMAGERS/002-DATABASE-USER-DOMAIN-ROLE-ROLECATEGORY-RELATIONSHIP-AND-KEYS-SOLUTION.svg)
+
+---
+
+# USER_ROLE – BUSINESS_INFORMATION Relationship Solution
+
+## 1. Relationship Overview
+
+The relationship between `USER_ROLE` and `BUSINESS_INFORMATION` is **One-to-One (1:1)**, with optional participation from the `USER_ROLE` side and mandatory participation from the `BUSINESS_INFORMATION` side.
+
+- A `USER_ROLE` may have zero or one associated `BUSINESS_INFORMATION` record.
+- Every `BUSINESS_INFORMATION` record must belong to exactly one `USER_ROLE`.
+- A role assignment that requires business information must have exactly one associated `BUSINESS_INFORMATION` record.
+- A role assignment that does not require business information may exist without an associated `BUSINESS_INFORMATION` record.
+
+## 2. Why Did the Relationship Change?
+
+Initially, the relationship was modeled between `USERS` and `BUSINESS_INFORMATION` as One-to-Many (1:N).
+
+However, introducing the `USER_ROLE` junction table allows each role assignment to be represented independently for a particular user.
+
+A single user may have multiple roles, and some of those roles may require separate business information records.
+
+For example, a user may have the following roles:
+
+| User | Role | Business Information Requirement |
+|---|---|---|
+| User 1 | Seller | Required |
+| User 1 | StoreManager | Required |
+| User 1 | SystemAdmin | Not required |
+
+In this example, User 1 requires two separate `BUSINESS_INFORMATION` records: one associated with the Seller assignment and another associated with the StoreManager assignment.
+
+The SystemAdmin assignment does not require a business information record.
+
+Therefore, associating business information with `USER_ROLE` rather than directly with `USERS` allows each business profile to correspond to the specific role assignment that requires it.
+
+## 3. Relationship Solution
+
+The relationship will be implemented by adding `UserRoleId` to the `BUSINESS_INFORMATION` table as a Foreign Key.
+
+- **Foreign Key:** `BUSINESS_INFORMATION.UserRoleId`
+- **Referenced Attribute:** `USER_ROLE.UserRoleId`
+- **Nullability:** `NOT NULL`
+- **Uniqueness:** `UNIQUE`
+
+The foreign key must reference an existing `USER_ROLE` record.
+
+The `NOT NULL` requirement ensures that every business information record is associated with a role assignment.
+
+The `UNIQUE` requirement ensures that a single role assignment cannot be associated with multiple business information records.
+
+Together, these constraints establish the One-to-One relationship at the database level, with optional participation from the `USER_ROLE` side.
+
+## 4. Participation and Cardinality
+
+### USER_ROLE Side
+
+A role assignment may have zero or one associated business information record.
+
+- Minimum cardinality: 0
+- Maximum cardinality: 1
+- Participation: Optional
+
+However, when the assigned role requires business information, the role assignment must have exactly one associated business information record.
+
+### BUSINESS_INFORMATION Side
+
+Every business information record must be associated with exactly one role assignment.
+
+- Minimum cardinality: 1
+- Maximum cardinality: 1
+- Participation: Mandatory
+
+## 5. Business Rules
+
+1. Each business information record must belong to exactly one role assignment.
+2. A role assignment must not be associated with more than one business information record.
+3. Role assignments that require business information must have exactly one associated business information record.
+4. Role assignments that do not require business information may exist without an associated business information record.
+5. Business information records must remain associated with the specific role assignment for which they were created.
+
+## 6. Enforcement Considerations
+
+The following database constraints support the relationship:
+
+- A Foreign Key on `BUSINESS_INFORMATION.UserRoleId` referencing `USER_ROLE.UserRoleId`.
+- A `NOT NULL` constraint on `BUSINESS_INFORMATION.UserRoleId`.
+- A `UNIQUE` constraint on `BUSINESS_INFORMATION.UserRoleId`.
+
+These constraints ensure that every business information record references one existing role assignment and that each role assignment has at most one associated business information record.
+
+However, these constraints alone cannot guarantee that every role assignment requiring business information already has an associated record. That requirement must be enforced through an appropriate system-level mechanism.
+
+The exact enforcement mechanism will be addressed in the relevant implementation and constraints stages.
+
