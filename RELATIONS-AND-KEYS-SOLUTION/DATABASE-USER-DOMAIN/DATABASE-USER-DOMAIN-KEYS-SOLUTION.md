@@ -124,3 +124,44 @@ The foreign key also ensures that the assigned category exists in `ROLE_CATEGORI
 No junction table is required for this relationship because each role belongs to exactly one category, while a category may contain multiple roles.
 
 ![002-DATABASE-USER-DOMAIN-ROLE-ROLECATEGORY-RELATIONSHIP-AND-KEYS-SOLUTION](/RELATIONS-AND-KEYS-SOLUTION/DATABASE-USER-DOMAIN/KEYS-IMAGES/002-DATABASE-USER-DOMAIN-ROLE-ROLECATEGORY-RELATIONSHIP-AND-KEYS-SOLUTION.svg)
+
+---
+
+# USER_ROLE – BUSINESS_INFORMATION Keys Solution
+
+## 1. Primary Key
+
+The `BUSINESS_INFORMATION` table retains its existing Primary Key.
+
+The existing Primary Key remains unchanged.
+
+## 2. Foreign Key
+
+The `BUSINESS_INFORMATION` table will include `UserRoleId` as a Foreign Key.
+
+- **Attribute:** `UserRoleId`
+- **Key Type:** Foreign Key (FK)
+- **Referenced Table:** `USER_ROLE`
+- **Referenced Attribute:** `USER_ROLE.UserRoleId`
+
+This foreign key establishes the relationship between each business information record and the specific user-role assignment to which it belongs.
+
+## 3. Mandatory and Unique Foreign Key
+
+The `UserRoleId` attribute in `BUSINESS_INFORMATION` must satisfy the following requirements:
+
+- **NOT NULL:** Every business information record must be associated with an existing user-role assignment.
+- **UNIQUE:** A single user-role assignment cannot be associated with more than one business information record.
+
+These requirements reflect the established One-to-One relationship, with optional participation from the `USER_ROLE` side and mandatory participation from the `BUSINESS_INFORMATION` side.
+
+## 4. Final Key Summary
+
+| Attribute | Key Type | Requirements |
+|---|---|---|
+| Existing Primary Key | Primary Key (PK) | Retained without change |
+| `UserRoleId` | Foreign Key (FK) | `NOT NULL` and `UNIQUE` |
+
+The existing Primary Key of `BUSINESS_INFORMATION` remains unchanged. `UserRoleId` is added as a Foreign Key to reference `USER_ROLE.UserRoleId`.
+
+![]()
