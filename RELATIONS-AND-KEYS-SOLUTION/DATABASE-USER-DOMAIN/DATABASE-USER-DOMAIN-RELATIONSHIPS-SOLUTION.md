@@ -178,9 +178,9 @@ Creating a junction table would introduce an additional table without being nece
 
 ## 3. Relationship Solution
 
-The relationship will be implemented by adding `CategoryId` to the `ROLES` table as a Foreign Key.
+The relationship will be implemented by adding `RoleCategoryName` to the `ROLES` table as a Foreign Key.
 
-`ROLES.CategoryId` shall reference the primary key of `ROLE_CATEGORIES`.
+`ROLES.RoleCategoryName` shall reference the primary key of `ROLECATEGORIES`.
 
 This design allows multiple roles to reference the same category without duplicating the category's attributes in each role record.
 
@@ -188,7 +188,7 @@ This design allows multiple roles to reference the same category without duplica
 
 Every role must belong to a category.
 
-Therefore, `ROLES.CategoryId` must be mandatory and must not accept `NULL`.
+Therefore, `ROLES.RoleCategoryName` must be mandatory and must not accept `NULL`.
 
 The foreign-key relationship ensures that each assigned category identifier references an existing record in `ROLE_CATEGORIES`.
 
@@ -198,14 +198,14 @@ Together, the mandatory attribute and foreign-key reference ensure that a role c
 
 The foreign key is stored in `ROLES` because each role belongs to one category, while one category may contain multiple roles.
 
-Placing `CategoryId` in `ROLES` allows multiple role records to reference the same category record.
+Placing `RoleCategoryName` in `ROLES` allows multiple role records to reference the same category record.
 
-Storing role identifiers in `ROLE_CATEGORIES` would not represent the One-to-Many relationship as naturally and would introduce unnecessary complexity when a category contains multiple roles.
+Storing role identifiers in `ROLECATEGORIES` would not represent the One-to-Many relationship as naturally and would introduce unnecessary complexity when a category contains multiple roles.
 
 ## 6. Final Relationship Structure
 
 - `ROLE_CATEGORIES` (1) → (N) `ROLES`
-- Foreign Key: `ROLES.CategoryId`
+- Foreign Key: `ROLES.CategoryName`
 - References: `ROLE_CATEGORIES` primary key
 - Nullability: `NOT NULL`
 - Junction Table: Not required
