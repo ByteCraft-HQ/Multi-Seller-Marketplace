@@ -154,3 +154,60 @@ The following matters must remain open until explicitly decided:
 - The handling of active-role state during role deactivation, soft deletion, and other lifecycle transitions.
 
 ![001-DATABASE-USER-DOMAIN-USERS-AND-ROLES-RELATIONSHIP-AND-KEYS-SOLUTION](/RELATIONS-AND-KEYS-SOLUTION/DATABASE-USER-DOMAIN/RELATIONSHIP-IMAGERS/001-DATABASE-USER-DOMAIN-USERS-AND-ROLES-RELATIONSHIP-AND-KEYS-SOLUTION.svg)
+
+---
+
+# ROLE_CATEGORIES – ROLES Relationship Solution
+
+## 1. Relationship Overview
+
+The relationship between `ROLE_CATEGORIES` and `ROLES` is **One-to-Many (1:N)**.
+
+- A role category may contain zero or many roles.
+- Each role must belong to exactly one role category.
+
+This relationship is mandatory from the `ROLES` side and optional from the `ROLE_CATEGORIES` side.
+
+## 2. Why Is a Junction Table Not Required?
+
+A junction table is unnecessary because the relationship is One-to-Many rather than Many-to-Many.
+
+Each role belongs to exactly one role category. A role cannot belong to multiple categories simultaneously under the current business rules.
+
+Creating a junction table would introduce an additional table without being necessary to represent this relationship.
+
+## 3. Relationship Solution
+
+The relationship will be implemented by adding `CategoryId` to the `ROLES` table as a Foreign Key.
+
+`ROLES.CategoryId` shall reference the primary key of `ROLE_CATEGORIES`.
+
+This design allows multiple roles to reference the same category without duplicating the category's attributes in each role record.
+
+## 4. Mandatory Category Assignment
+
+Every role must belong to a category.
+
+Therefore, `ROLES.CategoryId` must be mandatory and must not accept `NULL`.
+
+The foreign-key relationship ensures that each assigned category identifier references an existing record in `ROLE_CATEGORIES`.
+
+Together, the mandatory attribute and foreign-key reference ensure that a role cannot exist without a valid category assignment.
+
+## 5. Why Is the Foreign Key Stored in ROLES?
+
+The foreign key is stored in `ROLES` because each role belongs to one category, while one category may contain multiple roles.
+
+Placing `CategoryId` in `ROLES` allows multiple role records to reference the same category record.
+
+Storing role identifiers in `ROLE_CATEGORIES` would not represent the One-to-Many relationship as naturally and would introduce unnecessary complexity when a category contains multiple roles.
+
+## 6. Final Relationship Structure
+
+- `ROLE_CATEGORIES` (1) → (N) `ROLES`
+- Foreign Key: `ROLES.CategoryId`
+- References: `ROLE_CATEGORIES` primary key
+- Nullability: `NOT NULL`
+- Junction Table: Not required
+
+![]
