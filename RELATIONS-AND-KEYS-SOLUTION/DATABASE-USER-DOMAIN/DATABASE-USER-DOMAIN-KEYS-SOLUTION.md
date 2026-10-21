@@ -123,3 +123,4 @@ The foreign key also ensures that the assigned category exists in `ROLE_CATEGORI
 
 No junction table is required for this relationship because each role belongs to exactly one category, while a category may contain multiple roles.
 
+![002-DATABASE-USER-DOMAIN-ROLE-ROLECATEGORY-RELATIONSHIP-AND-KEYS-SOLUTION](/RELATIONS-AND-KEYS-SOLUTION/DATABASE-USER-DOMAIN/KEYS-IMAGES/002-DATABASE-USER-DOMAIN-ROLE-ROLECATEGORY-RELATIONSHIP-AND-KEYS-SOLUTION.svg)
