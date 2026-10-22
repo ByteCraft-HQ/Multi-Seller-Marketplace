@@ -348,3 +348,5 @@ In both tables, `UserID` is also a Foreign Key referencing `BusinessInformation(
 **Conclusion:** We have separated both multi-valued attributes into independent tables, ensuring atomic values and reducing unnecessary repetition of business information.
 
 **Technical note:** 1NF requires atomic attribute values. Separating these attributes does not automatically eliminate every form of data duplication or guarantee 2NF and 3NF. Those require further analysis of functional dependencies.
+
+![USER-DOMAIN-NORMALIZATION](/NORMALIZATION/USER-DOMAIN/USER-DOMAIN-NORMALIZATION.svg)
