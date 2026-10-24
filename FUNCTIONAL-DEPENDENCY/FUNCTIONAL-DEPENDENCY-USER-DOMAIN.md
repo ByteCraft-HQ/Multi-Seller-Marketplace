@@ -233,3 +233,99 @@ The `ROLES` table has two candidate keys identified in this analysis:
 Both attributes uniquely determine the complete role record. `RoleId` was preferred because it provides a stable internal identifier and reduces the impact of changes to the role's descriptive name.
 
 The identified functional dependencies will be used in subsequent normalization analysis where applicable.
+
+---
+
+# Functional Dependency – UsersPhoneNumbers
+
+## 1. Overview
+
+The `UsersPhoneNumbers` table stores the phone numbers associated with user accounts, along with their verification and status information.
+
+The table contains the following attributes:
+
+- `UserId`
+- `UserPhoneNumber`
+- `UserPhoneNumberVerification`
+- `UserPhoneNumberStatus`
+
+Each phone number must be unique across the system and can belong to only one user.
+
+## 2. Primary Functional Dependency
+
+The Composite Primary Key consists of:
+
+`(UserId, UserPhoneNumber)`
+
+The combination identifies a phone number record associated with a specific user and determines all attributes in that record.
+
+**Functional Dependency:**
+
+`(UserId, UserPhoneNumber) → All UsersPhoneNumbers Attributes`
+
+More specifically:
+
+`(UserId, UserPhoneNumber) → UserPhoneNumberVerification, UserPhoneNumberStatus`
+
+## 3. Phone Number Functional Dependency
+
+`UserPhoneNumber` is unique across the system and is associated with only one user.
+
+Therefore, the phone number independently determines all attributes in the corresponding record.
+
+**Functional Dependency:**
+
+`UserPhoneNumber → All UsersPhoneNumbers Attributes`
+
+This also establishes the following dependency:
+
+`UserPhoneNumber → UserId`
+
+Although `UserPhoneNumber` is unique, the Composite Primary Key remains the selected design decision.
+
+## 4. Key Design Considerations
+
+The Composite Primary Key was selected to represent the association between a user and their phone number using both `UserId` and `UserPhoneNumber`.
+
+The design also considers that a phone number may change in the future, while `UserId` remains stable.
+
+However, because `UserPhoneNumber` is part of the Composite Primary Key, changing the phone number changes the complete key value.
+
+The stable `UserId` component does not prevent the Composite Primary Key itself from changing.
+
+To enforce system-wide phone number uniqueness, `UserPhoneNumber` must also have a `UNIQUE` constraint.
+
+## 5. Functional Dependency Summary
+
+| Determinant | Dependent Attributes |
+|---|---|
+| `(UserId, UserPhoneNumber)` | All attributes in the record |
+| `UserPhoneNumber` | All attributes in the record |
+| `UserPhoneNumber` | `UserId` |
+
+`UserId` alone does not determine a single phone number record because one user may have multiple phone numbers.
+
+## 6. Normalization Consideration
+
+Because `UserPhoneNumber` alone determines all attributes in the record, it is a candidate key under the established uniqueness rule.
+
+The combination `(UserId, UserPhoneNumber)` is not a minimal candidate key because `UserPhoneNumber` alone is sufficient to identify the record.
+
+Therefore, although the Composite Primary Key is retained as the chosen design decision, this functional dependency should be considered during subsequent normalization analysis.
+
+## 7. Conclusion
+
+The `UsersPhoneNumbers` table uses `(UserId, UserPhoneNumber)` as its selected Composite Primary Key and enforces system-wide uniqueness on `UserPhoneNumber`.
+
+The principal functional dependencies are:
+
+`(UserId, UserPhoneNumber) → All UsersPhoneNumbers Attributes`
+
+`UserPhoneNumber → All UsersPhoneNumbers Attributes`
+
+`UserPhoneNumber → UserId`
+
+These dependencies document the current business rules and will be considered in the subsequent normalization stages.
+
+---
+
