@@ -3,7 +3,7 @@ A full-scale multi-seller marketplace integrating frontend, backend, database en
 
 # Database Engineering Documentation
 
-## Documentation Methodology
+## DataBase Modeling Documentation 
 
 We will follow a structured, stage-by-stage methodology to design and document each database domain. Each stage will have its own dedicated section and documentation, following the order below.
 
