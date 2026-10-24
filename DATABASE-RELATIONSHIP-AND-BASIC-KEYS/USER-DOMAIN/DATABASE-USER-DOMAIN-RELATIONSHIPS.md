@@ -188,5 +188,5 @@ The following topics remain assigned to their designated stages:
 
 The relationships documented here represent the current design decisions. Any required changes will be reviewed in the appropriate stage rather than assumed in advance.
 
-![000-USER-DOMAIN-RELATIONSHIP-AND-KEYS](/RELATIONS-AND-KEYS/DATABASE-USER-DOMAIN/RELATIONSHIP-IMAGE/000-USER-DOMAIN-RELATIONSHIP-AND-KEYS.svg)
+![000-USER-DOMAIN-RELATIONSHIP-AND-KEYS](/DATABASE-RELATIONS-AND-BASIC-KEYS/DATABASE-USER-DOMAIN/RELATIONSHIP-IMAGE/000-USER-DOMAIN-RELATIONSHIP-AND-KEYS.svg)
 
