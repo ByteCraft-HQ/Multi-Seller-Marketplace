@@ -424,8 +424,7 @@ This document establishes the intended purpose of the table and its attributes w
 
 The complete account lifecycle, including the detailed behavior of account statuses and the deletion process, will be documented in a separate lifecycle document.
 
-![001-DATABASE-USERS-USER-DOMAIN-MODEL](/DATABASE-DOCUMINTATION/DATABASE-USER-DOMAIN/IMAGES/001-DATABASE-USERS-USER-DOMAIN-MODEL.svg)
-
+![001-DATABASE-USERS-USER-DOMAIN-MODEL](/DATABASE-DOCUMENTATION/DATABASE-USER-DOMAIN/IMAGES/001-DATABASE-USERS-USER-DOMAIN-MODEL.svg)
 ---
 
 # ROLES Table Documentation
