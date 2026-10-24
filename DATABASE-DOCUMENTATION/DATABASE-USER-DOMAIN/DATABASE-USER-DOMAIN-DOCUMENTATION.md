@@ -894,7 +894,7 @@ It is intended for users whose assigned roles require business profiles, in acco
 
 The documented attributes establish the current scope of business information while leaving detailed relationships, implementation decisions, and lifecycle behavior to their designated design stages.
 
-![004-DATABASE-BUSINESS-INFORMATION-USER-DOMAIN-MODEL](/DATABASE-DOCUMINTATION/DATABASE-USER-DOMAIN/IMAGES/004-DATABASE-BUSINESS-INFORMATION-USER-DOMAIN-MODEL.svg)
+![004-DATABASE-BUSINESS-INFORMATION-USER-DOMAIN-MODEL](/DATABASE-DOCUMENTATION/DATABASE-USER-DOMAIN/IMAGES/004-DATABASE-BUSINESS-INFORMATION-USER-DOMAIN-MODEL.svg)
 
 
 ## 5. FINAL LOGICAL MODEL
