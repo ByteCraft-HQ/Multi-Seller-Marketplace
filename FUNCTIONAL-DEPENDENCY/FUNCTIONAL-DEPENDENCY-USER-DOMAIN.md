@@ -75,3 +75,73 @@ The identified dependencies will be used in subsequent normalization analysis wh
 
 ---
 
+# Functional Dependency – ROLE_CATEGORIES
+
+## 1. Overview
+
+This stage identifies the functional dependencies within the `ROLE_CATEGORIES` table based on the previously established keys and business rules.
+
+The `RoleCategoryName` attribute was selected as the Primary Key because it represents the category's identity and is expected to remain stable over the long term.
+
+In contrast, `RoleCategoryManager` represents the manager responsible for the category and may change according to the company's organizational structure and business needs.
+
+## 2. Primary Functional Dependency
+
+`RoleCategoryName` is the Primary Key of the `ROLE_CATEGORIES` table.
+
+Each category name identifies one category record and determines the values of its remaining attributes.
+
+**Functional Dependency:**
+
+`RoleCategoryName → All Role Category Attributes`
+
+This means that knowing the `RoleCategoryName` determines the corresponding values of the other attributes in the same category record.
+
+## 3. Manager Attribute
+
+`RoleCategoryManager` represents the manager responsible for a role category.
+
+The manager may change over time, for example, when the company changes its organizational structure or assigns a different manager.
+
+Therefore, `RoleCategoryManager` was not selected as the Primary Key.
+
+The following dependency does not hold under the established business rules:
+
+`RoleCategoryManager → All Role Category Attributes`
+
+A manager may be responsible for multiple categories, so the manager's identity does not necessarily determine a single category record.
+
+However, the manager attribute is determined by the category name in the current table design:
+
+`RoleCategoryName → RoleCategoryManager`
+
+## 4. Partial Functional Dependencies
+
+A partial functional dependency occurs when a non-key attribute depends on only part of a composite candidate key.
+
+The `ROLE_CATEGORIES` table uses `RoleCategoryName` as a single-attribute Primary Key.
+
+Therefore, there is no proper subset of this Primary Key on which a partial functional dependency could be based.
+
+**Conclusion:** No partial functional dependencies exist with respect to the selected Primary Key.
+
+## 5. Design Considerations
+
+- `RoleCategoryName` identifies the category and was selected as the Primary Key.
+- `RoleCategoryManager` may change without changing the category's identity.
+- A manager change does not require changing `RoleCategoryName`.
+- The Primary Key selection is consistent with the established business rules and the expected stability of category names.
+
+## 6. Conclusion
+
+The primary functional dependency identified for the `ROLE_CATEGORIES` table is:
+
+`RoleCategoryName → All Role Category Attributes`
+
+The manager attribute does not determine a category record because the same manager may be responsible for multiple categories.
+
+The table has no partial functional dependencies with respect to its single-attribute Primary Key.
+
+
+---
+
