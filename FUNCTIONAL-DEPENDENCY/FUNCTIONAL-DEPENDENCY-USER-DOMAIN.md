@@ -145,3 +145,91 @@ The table has no partial functional dependencies with respect to its single-attr
 
 ---
 
+# Functional Dependency – ROLES
+
+## 1. Overview
+
+This document identifies the functional dependencies within the `ROLES` table based on the previously established keys and business rules.
+
+The two main attributes considered in this analysis are:
+
+- `RoleId`
+- `RoleName`
+
+Both attributes can uniquely identify a role under the established business rules. However, `RoleId` was selected as the Primary Key.
+
+## 2. Primary Functional Dependency
+
+`RoleId` is the Primary Key of the `ROLES` table.
+
+Each `RoleId` identifies exactly one role and determines the values of all remaining attributes belonging to that role.
+
+**Functional Dependency:**
+
+`RoleId → All Role Attributes`
+
+This means that knowing the `RoleId` determines the corresponding values of the other attributes in the same role record.
+
+## 3. Alternate Functional Dependency
+
+`RoleName` is required and unique according to the established business rules.
+
+Therefore, each `RoleName` identifies a single role record and determines its remaining attributes.
+
+**Functional Dependency:**
+
+`RoleName → All Role Attributes`
+
+Since both `RoleId` and `RoleName` independently identify a role, they are candidate keys under the current business rules.
+
+`RoleId` was selected as the Primary Key, while `RoleName` remains an alternate candidate key.
+
+## 4. Why RoleId Was Selected as the Primary Key
+
+Although `RoleName` is unique, `RoleId` was selected as the Primary Key for the following reasons:
+
+- **Stability:** A role name may change as business terminology or organizational requirements evolve, whereas the internal identifier can remain unchanged.
+- **Relationship Management:** Other tables can reference a stable identifier instead of relying on a descriptive name.
+- **Maintainability:** Renaming a role does not require changing its identifier in related records.
+- **Storage and Processing:** A compact numeric identifier can be more efficient for indexing and joins than a longer text-based key, depending on the chosen data types and schema.
+- **Scalability:** Using a stable internal identifier reduces the impact of changes to descriptive attributes as the system evolves.
+
+These considerations support the previously established decision to use `RoleId` as the Primary Key.
+
+## 5. Functional Dependency Summary
+
+| Determinant | Dependent Attributes |
+|---|---|
+| `RoleId` | All remaining role attributes |
+| `RoleName` | All remaining role attributes |
+
+The following dependencies are identified:
+
+`RoleId → All Role Attributes`
+
+`RoleName → All Role Attributes`
+
+Because `RoleId` and `RoleName` each determine all remaining attributes, the two attributes also determine each other under the established uniqueness rules:
+
+`RoleId → RoleName`
+
+`RoleName → RoleId`
+
+## 6. Partial Functional Dependencies
+
+A partial functional dependency occurs when a non-key attribute depends on only part of a composite candidate key.
+
+The `ROLES` table uses single-attribute candidate keys: `RoleId` and `RoleName`.
+
+Therefore, no partial functional dependencies exist with respect to these candidate keys.
+
+## 7. Conclusion
+
+The `ROLES` table has two candidate keys identified in this analysis:
+
+- `RoleId` — selected as the Primary Key.
+- `RoleName` — retained as an alternate candidate key.
+
+Both attributes uniquely determine the complete role record. `RoleId` was preferred because it provides a stable internal identifier and reduces the impact of changes to the role's descriptive name.
+
+The identified functional dependencies will be used in subsequent normalization analysis where applicable.
