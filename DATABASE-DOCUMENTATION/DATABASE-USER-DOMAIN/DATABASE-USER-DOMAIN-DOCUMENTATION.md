@@ -548,7 +548,7 @@ The `ROLES` table provides a centralized definition of the roles supported by th
 
 The definition of a role remains distinct from the assignment of that role to a user, allowing role definitions and individual role assignments to be addressed separately throughout the database design process.
 
-![002-DATABASE-ROLES-USER-DOMAIN-MODEL](/DATABASE-DOCUMINTATION/DATABASE-USER-DOMAIN/IMAGES/002-DATABASE-ROLES-USER-DOMAIN-MODEL.svg)
+![002-DATABASE-ROLES-USER-DOMAIN-MODEL](/DATABASE-DOCUMENTATION/DATABASE-USER-DOMAIN/IMAGES/002-DATABASE-ROLES-USER-DOMAIN-MODEL.svg)
 
 ---
 
