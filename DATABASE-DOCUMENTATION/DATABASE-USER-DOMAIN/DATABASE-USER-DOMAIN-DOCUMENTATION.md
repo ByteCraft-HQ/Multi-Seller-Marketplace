@@ -653,7 +653,7 @@ Its attributes identify each category, represent its current status, identify it
 
 The table establishes the basis for category management while leaving relationship design, normalization, implementation details, and final lifecycle decisions to their designated stages.
 
-![003-DATABASE-ROLECATEGORY-USER-DOMAIN-MODEL](/DATABASE-DOCUMINTATION/DATABASE-USER-DOMAIN/IMAGES/003-DATABASE-ROLECATEGORY-USER-DOMAIN-MODEL.svg)
+![003-DATABASE-ROLECATEGORY-USER-DOMAIN-MODEL](/DATABASE-DOCUMENTATION/DATABASE-USER-DOMAIN/IMAGES/004-DATABASE-BUSINESS-INFORMATION-USER-DOMAIN-MODEL.svg)
 
 ---
 
