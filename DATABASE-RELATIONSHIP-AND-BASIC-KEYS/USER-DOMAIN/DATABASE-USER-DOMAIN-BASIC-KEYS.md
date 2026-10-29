@@ -91,3 +91,5 @@ We are using them because they are expected to be unique and can temporarily ide
 After completing 1NF, we will analyze the functional dependencies and determine the appropriate candidate keys and final primary keys. If necessary, we will introduce surrogate keys or revise the existing identifiers.
 
 **The objective is to establish a workable initial structure without making premature decisions about the final key design.**
+
+![000-DATABASE-USER-DOMAIN-BASIC-KEYS](/DATABASE-RELATIONSHIP-AND-BASIC-KEYS/USER-DOMAIN/BASIC-KEYS-IMAGES/000-DATABASE-USER-DOMAIN-BASIC-KEYS.svg)
