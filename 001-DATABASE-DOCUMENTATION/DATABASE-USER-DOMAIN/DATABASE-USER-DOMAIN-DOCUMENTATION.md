@@ -424,7 +424,7 @@ This document establishes the intended purpose of the table and its attributes w
 
 The complete account lifecycle, including the detailed behavior of account statuses and the deletion process, will be documented in a separate lifecycle document.
 
-![001-DATABASE-USERS-USER-DOMAIN-MODEL](/DATABASE-DOCUMENTATION/DATABASE-USER-DOMAIN/IMAGES/001-DATABASE-USERS-USER-DOMAIN-MODEL.svg)
+![001-DATABASE-USERS-USER-DOMAIN-MODEL](/001-DATABASE-DOCUMENTATION/DATABASE-USER-DOMAIN/IMAGES/001-DATABASE-USERS-USER-DOMAIN-MODEL.svg)
 ---
 
 # ROLES Table Documentation
@@ -547,7 +547,7 @@ The `ROLES` table provides a centralized definition of the roles supported by th
 
 The definition of a role remains distinct from the assignment of that role to a user, allowing role definitions and individual role assignments to be addressed separately throughout the database design process.
 
-![002-DATABASE-ROLES-USER-DOMAIN-MODEL](/DATABASE-DOCUMENTATION/DATABASE-USER-DOMAIN/IMAGES/002-DATABASE-ROLES-USER-DOMAIN-MODEL.svg)
+![002-DATABASE-ROLES-USER-DOMAIN-MODEL](/001-DATABASE-DOCUMENTATION/DATABASE-USER-DOMAIN/IMAGES/002-DATABASE-ROLES-USER-DOMAIN-MODEL.svg)
 
 ---
 
@@ -652,7 +652,7 @@ Its attributes identify each category, represent its current status, identify it
 
 The table establishes the basis for category management while leaving relationship design, normalization, implementation details, and final lifecycle decisions to their designated stages.
 
-![003-DATABASE-ROLECATEGORY-USER-DOMAIN-MODEL](/DATABASE-DOCUMENTATION/DATABASE-USER-DOMAIN/IMAGES/004-DATABASE-BUSINESS-INFORMATION-USER-DOMAIN-MODEL.svg)
+![003-DATABASE-ROLECATEGORY-USER-DOMAIN-MODEL](/001-DATABASE-DOCUMENTATION/DATABASE-USER-DOMAIN/IMAGES/004-DATABASE-BUSINESS-INFORMATION-USER-DOMAIN-MODEL.svg)
 
 ---
 
@@ -893,8 +893,8 @@ It is intended for users whose assigned roles require business profiles, in acco
 
 The documented attributes establish the current scope of business information while leaving detailed relationships, implementation decisions, and lifecycle behavior to their designated design stages.
 
-![004-DATABASE-BUSINESS-INFORMATION-USER-DOMAIN-MODEL](/DATABASE-DOCUMENTATION/DATABASE-USER-DOMAIN/IMAGES/004-DATABASE-BUSINESS-INFORMATION-USER-DOMAIN-MODEL.svg)
+![004-DATABASE-BUSINESS-INFORMATION-USER-DOMAIN-MODEL](/001-DATABASE-DOCUMENTATION/DATABASE-USER-DOMAIN/IMAGES/004-DATABASE-BUSINESS-INFORMATION-USER-DOMAIN-MODEL.svg)
 
 
 ## 5. FINAL LOGICAL MODEL
-![000-DATABASE-USER-DOMAIL-MODEL](/DATABASE-DOCUMENTATION/DATABASE-USER-DOMAIN/IMAGES/000-DATABASE-USER-DOMAIL-MODEL.svg)
+![000-DATABASE-USER-DOMAIL-MODEL](/001-DATABASE-DOCUMENTATION/DATABASE-USER-DOMAIN/IMAGES/000-DATABASE-USER-DOMAIL-MODEL.svg)
