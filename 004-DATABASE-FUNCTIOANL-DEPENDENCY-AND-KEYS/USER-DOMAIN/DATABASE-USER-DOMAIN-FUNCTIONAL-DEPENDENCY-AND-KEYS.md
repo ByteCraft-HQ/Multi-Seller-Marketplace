@@ -675,3 +675,56 @@ The design currently has no other tables referencing `UserPhoneNumber`, so chang
 **Final Decision:** `UserPhoneNumber` is the sole Candidate Key and the selected Primary Key of the `UserPhoneNumbers` table.
 
 ![004-DATABASE-USERPHONENUMBER-USER-DOMAIN-FUNCTIONAL-DEPENDENCY-AND-KEYS](/004-DATABASE-FUNCTIOANL-DEPENDENCY-AND-KEYS/USER-DOMAIN/KEYS-IMAGES/004-DATABASE-USERPHONENUMBER-USER-DOMAIN-FUNCTIONAL-DEPENDENCY-AND-KEYS.svg)
+
+---
+
+# Functional Dependencies and Keys
+
+## 1. Functional Dependencies
+
+The `BUSINESS_INFORMATION` table has two primary functional dependencies:
+
+- `BusinessInformationId → All Business Information Attributes`
+- `BusinessInformationNationalId → All Business Information Attributes`
+
+Both attributes uniquely identify a Business Information record.
+
+`BusinessInformationId` is a system-generated identifier, while `BusinessInformationNationalId` is a unique real-world identifier associated with the individual.
+
+## 2. Super Keys
+
+Examples of Super Keys include:
+
+- `BusinessInformationId`
+- `BusinessInformationNationalId`
+- `(BusinessInformationId, BusinessInformationNationalId)`
+
+Other combinations containing either unique identifier are also Super Keys.
+
+## 3. Candidate Keys
+
+The Candidate Keys are:
+
+- `BusinessInformationId`
+- `BusinessInformationNationalId`
+
+Both attributes are minimal Super Keys because each one independently identifies a record.
+
+The combination `(BusinessInformationId, BusinessInformationNationalId)` is not a Candidate Key because it is not minimal. Either attribute alone is sufficient to identify the record.
+
+## 4. Primary Key and Alternate Key
+
+- **Primary Key (PK):** `BusinessInformationId`
+- **Alternate Key:** `BusinessInformationNationalId`
+
+Although the National ID is unique and stable, it is sensitive personal information. Therefore, it is not selected as the Primary Key.
+
+Instead, `BusinessInformationId` is selected as the Primary Key to provide an internal system-generated identifier without relying on sensitive personal information.
+
+`BusinessInformationNationalId` remains an Alternate Key and must retain its uniqueness constraint.
+
+## 5. Natural and Surrogate Keys
+
+- **Surrogate Key:** `BusinessInformationId`
+- **Natural Key:** `BusinessInformationNationalId`
+
