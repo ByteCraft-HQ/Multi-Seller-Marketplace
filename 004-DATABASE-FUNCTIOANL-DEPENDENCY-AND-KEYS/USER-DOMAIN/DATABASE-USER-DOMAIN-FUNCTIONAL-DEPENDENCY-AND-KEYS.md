@@ -542,3 +542,4 @@ However, these combinations are not Candidate Keys because they contain unnecess
 
 **Final Decision:** `RoleCategoryName` is selected as the Primary Key and is the only identified Candidate Key. No Surrogate Key or Alternate Key is introduced in the current design.
 
+![003-DATABASE-ROLECATEGORY-USER-DOMAIN-FUNCTIONAL-DEPENDENCY-AND-KEYS](/004-DATABASE-FUNCTIOANL-DEPENDENCY-AND-KEYS/USER-DOMAIN/KEYS-IMAGES/003-DATABASE-ROLECATEGORY-USER-DOMAIN-FUNCTIONAL-DEPENDENCY-AND-KEYS.svg)
