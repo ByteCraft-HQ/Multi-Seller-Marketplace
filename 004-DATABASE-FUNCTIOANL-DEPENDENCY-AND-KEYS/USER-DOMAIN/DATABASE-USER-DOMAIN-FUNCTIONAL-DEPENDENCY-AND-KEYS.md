@@ -419,4 +419,4 @@ It must remain unique to prevent duplicate role names.
 
 **Note:** Rules concerning role name reuse, deletion, and lifecycle behavior will be documented separately in the Lifecycle and Decision Finalization stage.
 
-
+![002-DATABASE-ROLES-USER-DOMAIN-FUNCTIONAL-DEPENDENCY-AND-KEY](/004-DATABASE-FUNCTIOANL-DEPENDENCY-AND-KEYS/USER-DOMAIN/KEYS-IMAGES/002-DATABASE-ROLES-USER-DOMAIN-FUNCTIONAL-DEPENDENCY-AND-KEYS.svg)
