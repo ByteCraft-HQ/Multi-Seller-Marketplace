@@ -422,3 +422,123 @@ However, these combinations are not Candidate Keys because they contain unnecess
 **Final Decision:** `RoleID` is selected as the Primary Key, while `RoleName` is retained as an Alternate Key. Both are Candidate Keys because each independently determines all attributes in the `Roles` table.
 
 ![002-DATABASE-ROLES-USER-DOMAIN-FUNCTIONAL-DEPENDENCY-AND-KEY](/004-DATABASE-FUNCTIOANL-DEPENDENCY-AND-KEYS/USER-DOMAIN/KEYS-IMAGES/002-DATABASE-ROLES-USER-DOMAIN-FUNCTIONAL-DEPENDENCY-AND-KEYS.svg)
+
+---
+
+# User Domain — Table 3: RoleCategories
+
+## 1. Functional Dependencies
+
+The `RoleCategories` table has one identified determinant:
+
+- `RoleCategoryName`
+
+`RoleCategoryName` uniquely identifies each role category record and determines all the remaining attributes.
+
+### FD-001: RoleCategoryName
+
+\[
+RoleCategoryName \rightarrow All\ RoleCategory\ Attributes
+\]
+
+### Dependent Attributes
+
+`RoleCategoryName` determines the following attributes:
+
+- `RoleCategoryName`
+- `CategoryStatus`
+- `RoleCategoryManager`
+- `CategoryCreatedAt`
+
+### Functional Dependency Rules
+
+- `RoleCategoryName` is unique and required.
+- `RoleCategoryName` independently determines all remaining attributes.
+- `RoleCategoryManager` is a single-valued attribute, not a multi-valued attribute.
+- `RoleCategoryManager` is not unique and does not independently identify a role category.
+- No additional functional dependencies between non-key attributes have been identified.
+
+---
+
+## 2. Super Keys
+
+A Super Key is an attribute or combination of attributes that uniquely identifies a record. It may contain unnecessary attributes.
+
+Examples of Super Keys:
+
+- `RoleCategoryName`
+- `(RoleCategoryName, CategoryStatus)`
+- `(RoleCategoryName, RoleCategoryManager)`
+- `(RoleCategoryName, CategoryCreatedAt)`
+- Other combinations containing `RoleCategoryName`.
+
+---
+
+## 3. Candidate Key
+
+The identified Candidate Key is:
+
+- `RoleCategoryName`
+
+It independently identifies each role category record and contains no unnecessary attributes.
+
+A Candidate Key is a minimal Super Key.
+
+---
+
+## 4. Primary Key (PK)
+
+**Selected Primary Key: `RoleCategoryName`**
+
+`RoleCategoryName` is selected as the Primary Key because it uniquely identifies each category and is sufficient for the current design requirements.
+
+Reasons for this choice:
+
+- **Uniqueness:** Each category has a distinct name.
+- **Simplicity:** No additional identifier is required for the current design.
+- **Suitability:** The table is expected to contain a relatively small number of records.
+- **Maintainability:** Changes are expected to be infrequent.
+
+---
+
+## 5. Natural Key
+
+`RoleCategoryName` is classified as a Natural Key because it represents the actual name of the category within the system.
+
+It has a meaningful business value rather than being an artificial identifier generated solely for database purposes.
+
+---
+
+## 6. Surrogate Key
+
+No Surrogate Key is introduced in the current design.
+
+A separate `RoleCategoryID` is not considered necessary because `RoleCategoryName` already satisfies the current identification requirements.
+
+This decision can be reconsidered if the system requirements change.
+
+---
+
+## 7. Alternate Key
+
+No Alternate Key is identified because `RoleCategoryName` is the only Candidate Key in the current design.
+
+---
+
+## 8. Composite Super Keys
+
+Any combination containing `RoleCategoryName` with additional attributes is a Super Key because `RoleCategoryName` independently identifies the entire record.
+
+However, these combinations are not Candidate Keys because they contain unnecessary attributes.
+
+---
+
+## 9. Final Key Classification
+
+| Attribute | Classification |
+|---|---|
+| `RoleCategoryName` | Primary Key, Candidate Key, Natural Key, Super Key |
+| `RoleCategoryManager` | Non-Key Attribute |
+
+**Final Decision:** `RoleCategoryName` is selected as the Primary Key and is the only identified Candidate Key. No Surrogate Key or Alternate Key is introduced in the current design.
+
