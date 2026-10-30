@@ -673,3 +673,5 @@ A separate Surrogate Key is not introduced.
 The design currently has no other tables referencing `UserPhoneNumber`, so changing a phone number does not require updating Foreign Keys in other tables.
 
 **Final Decision:** `UserPhoneNumber` is the sole Candidate Key and the selected Primary Key of the `UserPhoneNumbers` table.
+
+![004-DATABASE-USERPHONENUMBER-USER-DOMAIN-FUNCTIONAL-DEPENDENCY-AND-KEYS](/004-DATABASE-FUNCTIOANL-DEPENDENCY-AND-KEYS/USER-DOMAIN/KEYS-IMAGES/004-DATABASE-USERPHONENUMBER-USER-DOMAIN-FUNCTIONAL-DEPENDENCY-AND-KEYS.svg)
