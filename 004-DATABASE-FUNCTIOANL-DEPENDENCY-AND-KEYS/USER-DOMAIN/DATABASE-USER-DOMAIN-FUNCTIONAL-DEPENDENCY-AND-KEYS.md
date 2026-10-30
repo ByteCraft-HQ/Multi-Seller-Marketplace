@@ -290,3 +290,4 @@ However, it is changeable, which makes it less suitable as a permanent internal 
 
 \*\*Final Decision:\*\* `UserId` is selected as the Primary Key, while `UserEmail` is retained as an Alternate Key. Both are Candidate Keys because each independently determines all attributes in the `Users` table.
 
+![001-DATABASE-USERS-USER-DOMAIN-FUNCTIONAL-DEPENDENCY-AND-KEYS](/004-DATABASE-FUNCTIOANL-DEPENDENCY-AND-KEYS/USER-DOMAIN/KEYS-IMAGES/001-DATABASE-USERS-USER-DOMAIN-FUNCTIONAL-DEPENDENCY-AND-KEYS.svg)
