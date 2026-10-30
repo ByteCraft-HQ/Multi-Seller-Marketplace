@@ -729,3 +729,87 @@ Instead, `BusinessInformationId` is selected as the Primary Key to provide an in
 - **Natural Key:** `BusinessInformationNationalId`
 
 ![005-DATABASE-BUSINESSINFORMATION-USER-DOMAIN-FUNCTIOANL-DEPENDENCY-AND-KEYS](/004-DATABASE-FUNCTIOANL-DEPENDENCY-AND-KEYS/USER-DOMAIN/KEYS-IMAGES/005-DATABASE-BUSINESSINFORMATION-USER-DOMAIN-FUNCTIOANL-DEPENDENCY-AND-KEYS.svg)
+
+---
+
+# Functional Dependencies and Keys
+
+## 1. BusinessInformationEmail
+
+### Functional Dependencies
+
+The `BusinessInformationEmail` attribute is not globally unique because the same email address can be associated with up to three different people.
+
+Therefore:
+
+- `BusinessInformationId` alone does not identify an email record if a Business Information record can have multiple email addresses.
+- `BusinessInformationEmail` alone does not identify an email record because it can be shared by multiple people.
+- `(BusinessInformationId, BusinessInformationEmail) → All Business Information Email Attributes`
+
+### Super Keys
+
+Examples of Super Keys include:
+
+- `(BusinessInformationId, BusinessInformationEmail)`
+
+Other combinations containing both attributes and additional attributes are also Super Keys.
+
+### Candidate Keys
+
+- `(BusinessInformationId, BusinessInformationEmail)`
+
+This composite key uniquely identifies an email record, assuming the same email address cannot be repeated within the same Business Information record.
+
+### Primary Key
+
+- **Primary Key (PK):** `(BusinessInformationId, BusinessInformationEmail)`
+
+### Natural and Surrogate Keys
+
+- `BusinessInformationId`: Surrogate Key component.
+- `BusinessInformationEmail`: Natural Key component.
+- The composite Primary Key combines a Surrogate Key component and a Natural Key component.
+
+### Alternate Keys
+
+- No Alternate Keys.
+
+---
+
+## 2. BusinessInformationPhoneNumber
+
+### Functional Dependencies
+
+`BusinessInformationPhoneNumber` is globally unique across the system, and each phone number belongs to exactly one person.
+
+Therefore:
+
+- `BusinessInformationPhoneNumber → All Business Information Phone Number Attributes`
+
+### Super Keys
+
+Examples of Super Keys include:
+
+- `BusinessInformationPhoneNumber`
+- `(BusinessInformationId, BusinessInformationPhoneNumber)`
+
+Other combinations containing `BusinessInformationPhoneNumber` are also Super Keys.
+
+### Candidate Keys
+
+- `BusinessInformationPhoneNumber`
+
+It is a minimal Super Key because it independently identifies a phone number record.
+
+### Primary Key
+
+- **Primary Key (PK):** `BusinessInformationPhoneNumber`
+
+### Natural and Surrogate Keys
+
+- **Natural Key:** `BusinessInformationPhoneNumber`
+- **Surrogate Key:** None.
+
+### Alternate Keys
+
+- No Alternate Keys.
