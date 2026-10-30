@@ -543,3 +543,133 @@ However, these combinations are not Candidate Keys because they contain unnecess
 **Final Decision:** `RoleCategoryName` is selected as the Primary Key and is the only identified Candidate Key. No Surrogate Key or Alternate Key is introduced in the current design.
 
 ![003-DATABASE-ROLECATEGORY-USER-DOMAIN-FUNCTIONAL-DEPENDENCY-AND-KEYS](/004-DATABASE-FUNCTIOANL-DEPENDENCY-AND-KEYS/USER-DOMAIN/KEYS-IMAGES/003-DATABASE-ROLECATEGORY-USER-DOMAIN-FUNCTIONAL-DEPENDENCY-AND-KEYS.svg)
+
+---
+
+# User Domain — Table 4: UserPhoneNumbers
+
+## 1. Functional Dependencies
+
+The `UserPhoneNumbers` table contains a multi-valued attribute extracted from the `Users` table during First Normal Form (1NF).
+
+Each user can have multiple phone numbers. However, each phone number can belong to only one user and must be unique across the entire system.
+
+### FD-001: UserPhoneNumber
+
+\[
+UserPhoneNumber \rightarrow All\ UserPhoneNumber\ Attributes
+\]
+
+`UserPhoneNumber` determines the following attributes:
+
+- `UserId`
+- `UserPhoneNumberVerification`
+- `UserPhoneNumberStatus`
+
+### FD-002: Composite Determinant
+
+\[
+(UserId, UserPhoneNumber) \rightarrow All\ UserPhoneNumber\ Attributes
+\]
+
+The combination of `UserId` and `UserPhoneNumber` also determines the entire record.
+
+However, this combination is not minimal because `UserPhoneNumber` independently determines all attributes.
+
+### Functional Dependency Rules
+
+- `UserPhoneNumber` is unique across the entire system.
+- Each phone number belongs to exactly one user.
+- A user can have multiple phone numbers.
+- `UserId` alone cannot uniquely identify a phone number record.
+- No additional functional dependencies between non-key attributes have been identified.
+
+---
+
+## 2. Super Keys
+
+The identified Super Keys include:
+
+- `UserPhoneNumber`
+- `(UserId, UserPhoneNumber)`
+- Other combinations containing `UserPhoneNumber`.
+
+`UserId` alone is not a Super Key because one user can have multiple phone numbers.
+
+---
+
+## 3. Candidate Keys
+
+The identified Candidate Key is:
+
+- `UserPhoneNumber`
+
+It independently identifies each record and contains no unnecessary attributes.
+
+`(UserId, UserPhoneNumber)` is not a Candidate Key because it is not minimal.
+
+---
+
+## 4. Primary Key (PK)
+
+**Selected Primary Key: `UserPhoneNumber`**
+
+`UserPhoneNumber` is selected as the Primary Key because:
+
+- It is unique across the entire system.
+- It is required and cannot be NULL.
+- It independently identifies each phone number record.
+- It belongs to exactly one user.
+- No additional identifier is required for the current design.
+
+Although phone numbers can change, this does not prevent them from being used as Primary Keys.
+
+---
+
+## 5. Natural Key
+
+`UserPhoneNumber` is classified as a Natural Key because it represents a real-world phone number rather than an artificial identifier generated specifically for database identification.
+
+---
+
+## 6. Alternate Keys
+
+No Alternate Keys are identified in the current design because `UserPhoneNumber` is the only Candidate Key.
+
+---
+
+## 7. Surrogate Key
+
+No Surrogate Key is introduced in the current design.
+
+A separate `UserPhoneNumberId` is not considered necessary because `UserPhoneNumber` already uniquely identifies each record and satisfies the current requirements.
+
+---
+
+## 8. Composite Super Keys
+
+The combination `(UserId, UserPhoneNumber)` is a Super Key because it uniquely identifies a phone number record.
+
+However, it is not a Candidate Key because `UserPhoneNumber` alone is sufficient to identify the record.
+
+---
+
+## 9. Final Key Classification
+
+| Attribute | Classification |
+|---|---|
+| `UserPhoneNumber` | Primary Key, Candidate Key, Natural Key, Super Key |
+| `UserId` | Foreign Key, Non-Key Attribute |
+| `(UserId, UserPhoneNumber)` | Composite Super Key, Not a Candidate Key |
+
+---
+
+## 10. Final Design Decision
+
+`UserPhoneNumber` is selected as the Primary Key because it is globally unique and independently identifies each phone number record.
+
+A separate Surrogate Key is not introduced.
+
+The design currently has no other tables referencing `UserPhoneNumber`, so changing a phone number does not require updating Foreign Keys in other tables.
+
+**Final Decision:** `UserPhoneNumber` is the sole Candidate Key and the selected Primary Key of the `UserPhoneNumbers` table.
