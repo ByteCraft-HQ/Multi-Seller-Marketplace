@@ -300,15 +300,15 @@ However, it is changeable, which makes it less suitable as a permanent internal 
 
 The `Roles` table has two independent determinants:
 
-- `RoleId`
+- `RoleID`
 - `RoleName`
 
-Both attributes uniquely identify a role record and determine all the remaining attributes in the table.
+Both attributes uniquely identify a role record and determine all the remaining attributes.
 
-### FD-001: RoleId
+### FD-001: RoleID
 
 \[
-RoleId \rightarrow All\ Role\ Attributes
+RoleID \rightarrow All\ Role\ Attributes
 \]
 
 ### FD-002: RoleName
@@ -317,9 +317,11 @@ RoleId \rightarrow All\ Role\ Attributes
 RoleName \rightarrow All\ Role\ Attributes
 \]
 
-The attributes determined by both determinants are:
+### Dependent Attributes
 
-- `RoleId`
+Both determinants determine the following attributes:
+
+- `RoleID`
 - `RoleName`
 - `RoleStatus`
 - `RoleCreatedAt`
@@ -327,10 +329,9 @@ The attributes determined by both determinants are:
 
 ### Functional Dependency Rules
 
-- `RoleId` uniquely identifies each role record.
+- `RoleID` is unique and identifies exactly one role record.
 - `RoleName` is required and unique across all role records.
-- Duplicate role names are not allowed.
-- Both determinants independently determine all attributes in the `Roles` table.
+- Both determinants independently determine all remaining attributes.
 - No additional functional dependencies between non-key attributes have been identified.
 
 ---
@@ -339,16 +340,14 @@ The attributes determined by both determinants are:
 
 A Super Key is an attribute or combination of attributes that uniquely identifies a record. It may contain unnecessary attributes.
 
-Examples of Super Keys in the `Roles` table:
+Examples of Super Keys:
 
-- `RoleId`
+- `RoleID`
 - `RoleName`
-- `(RoleId, RoleName)`
-- `(RoleId, RoleStatus)`
+- `(RoleID, RoleName)`
+- `(RoleID, RoleStatus)`
 - `(RoleName, RoleCreatedAt)`
-- Other combinations containing either `RoleId` or `RoleName`.
-
-**Important:** A combination containing an existing Candidate Key is a Super Key, but it is not necessarily a Candidate Key because it may contain unnecessary attributes.
+- Other combinations containing either `RoleID` or `RoleName`.
 
 ---
 
@@ -356,10 +355,10 @@ Examples of Super Keys in the `Roles` table:
 
 The Candidate Keys are:
 
-- `RoleId`
+- `RoleID`
 - `RoleName`
 
-Each Candidate Key independently identifies a role record and contains no unnecessary attributes.
+Both attributes independently identify each role record and contain no unnecessary attributes.
 
 A Candidate Key is a minimal Super Key.
 
@@ -367,56 +366,59 @@ A Candidate Key is a minimal Super Key.
 
 ## 4. Primary Key (PK)
 
-**Selected Primary Key: `RoleId`**
+**Selected Primary Key: `RoleID`**
 
-`RoleId` is selected as the Primary Key because:
+`RoleID` is selected as the Primary Key because:
 
-- **Uniqueness:** Each role has its own unique identifier.
-- **Stability:** The identifier remains unchanged when the role name changes.
-- **Simplicity:** It provides a straightforward identifier for database operations.
-- **Independence:** It is not tied to a descriptive name that may change over time.
-- **Maintainability:** It simplifies references to roles from other tables through Foreign Keys.
-
----
-
-## 5. Surrogate Key
-
-`RoleId` is a Surrogate Key because it is an artificial identifier created specifically for the database rather than derived from real-world information.
-
-It is preferred because the identity of a role does not depend on its name.
-
-For example, if a role changes its name from `Editor` to `ContentEditor`, its `RoleId` remains unchanged.
+- It is unique for every role.
+- It is stable and should not change over time.
+- It is independent of the role's descriptive name.
+- It provides a consistent identifier for each role.
+- It simplifies database maintenance.
 
 ---
 
-## 6. Natural Key
+## 5. Alternate Key
 
-`RoleName` is considered a Natural Key because it represents the actual name of the role within the system.
+`RoleName` is selected as the Alternate Key because:
 
-It qualifies as a Candidate Key because it is required and unique.
-
-However, it may change over time, making it less suitable as the Primary Key.
-
----
-
-## 7. Alternate Key
-
-`RoleName` is an Alternate Key because it is a Candidate Key that was not selected as the Primary Key.
-
-It must remain unique to prevent duplicate role names.
+- It is a Candidate Key.
+- It is required and unique.
+- It independently identifies a role record.
+- It is not selected as the Primary Key because role names may change over time.
 
 ---
 
-## 8. Final Key Classification
+## 6. Surrogate Key
+
+`RoleID` is classified as a Surrogate Key because it is an artificial identifier created specifically for database identification rather than derived from real-world information.
+
+---
+
+## 7. Natural Key
+
+`RoleName` is classified as a Natural Key because it represents the actual name of the role within the system.
+
+However, its value may change as the system evolves, making it less suitable as a permanent identifier.
+
+---
+
+## 8. Composite Super Keys
+
+Any combination containing `RoleID` or `RoleName` with additional attributes is a Super Key because either attribute independently identifies the entire record.
+
+However, these combinations are not Candidate Keys because they contain unnecessary attributes.
+
+---
+
+## 9. Final Key Classification
 
 | Attribute | Classification |
 |---|---|
-| `RoleId` | Primary Key, Candidate Key, Surrogate Key |
-| `RoleName` | Alternate Key, Candidate Key, Natural Key |
-| `(RoleId, RoleName)` | Super Key, Not a Candidate Key |
+| `RoleID` | Primary Key, Candidate Key, Surrogate Key, Super Key |
+| `RoleName` | Candidate Key, Alternate Key, Natural Key, Super Key |
+| `(RoleID, RoleName)` | Composite Super Key, Not a Candidate Key |
 
-**Final Decision:** `RoleId` is selected as the Primary Key, while `RoleName` is retained as an Alternate Key. Both are Candidate Keys because each independently determines all attributes in the `Roles` table.
-
-**Note:** Rules concerning role name reuse, deletion, and lifecycle behavior will be documented separately in the Lifecycle and Decision Finalization stage.
+**Final Decision:** `RoleID` is selected as the Primary Key, while `RoleName` is retained as an Alternate Key. Both are Candidate Keys because each independently determines all attributes in the `Roles` table.
 
 ![002-DATABASE-ROLES-USER-DOMAIN-FUNCTIONAL-DEPENDENCY-AND-KEY](/004-DATABASE-FUNCTIOANL-DEPENDENCY-AND-KEYS/USER-DOMAIN/KEYS-IMAGES/002-DATABASE-ROLES-USER-DOMAIN-FUNCTIONAL-DEPENDENCY-AND-KEYS.svg)
