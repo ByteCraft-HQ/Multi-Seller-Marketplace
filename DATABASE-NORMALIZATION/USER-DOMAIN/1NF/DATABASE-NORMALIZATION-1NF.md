@@ -419,4 +419,4 @@ Finally, we introduced additional verification and status attributes to satisfy 
 
 **Next Step:** Functional Dependency Analysis, where we will examine the dependencies between attributes and determine the final candidate and primary keys.
 
-!/000-DATABASE-USER-DOMAIN-NORMALIZATION-1NF](/DATABASE-NORMALIZATION/USER-DOMAIN/1NF/000-DATABASE-USER-DOMAIN-NORMALIZATION-1NF.svg)
+![000-DATABASE-USER-DOMAIN-NORMALIZATION-1NF](/DATABASE-NORMALIZATION/USER-DOMAIN/1NF/000-DATABASE-USER-DOMAIN-NORMALIZATION-1NF.svg)
