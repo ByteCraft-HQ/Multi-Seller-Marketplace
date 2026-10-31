@@ -299,6 +299,6 @@ These constraints ensure that every business information record references one e
 However, these constraints alone cannot guarantee that every role assignment requiring business information already has an associated record. That requirement must be enforced through an appropriate system-level mechanism.
 
 The exact enforcement mechanism will be addressed in the relevant implementation and constraints stages.
-
+![003-DATABASE-USER-DOMAIN-USERROLE-BUSINESSINFORMATION-RELATIONSHIP-AND-KEYS-SOLUTION](/005-RELATIONSHIP-SOLUTION/USER-DOMAIN/KEYS-IMAGES/003-DATABASE-USER-DOMAIN-USERROLE-BUSINESSINFORMATION-RELATIONSHIP-AND-KEYS-SOLUTION.svg)
 
 ![000-DATABASE-USER-DOMAIN-RELATIONSHIP-SOLUTION](/005-RELATIONSHIP-SOLUTION/USER-DOMAIN/KEYS-IMAGES/000-DATABASE-USER-DOMAIN-RELATIONSHIP-SOLUTION.svg)
