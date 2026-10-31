@@ -150,7 +150,7 @@ The following matters must remain open until explicitly decided:
 - The exact allowed values and transition rules for `UserRoleStatus`.
 - The precise enforcement mechanism for allowing at most one active role context per user across all devices.
 - The handling of active-role state during role deactivation, soft deletion, and other lifecycle transitions.
-
+![001-DATABASE-USER-DOMAIN-USERS-AND-ROLES-RELATIONSHIP-AND-KEYS](/005-RELATIONSHIP-SOLUTION/USER-DOMAIN/KEYS-IMAGES/001-DATABASE-USER-DOMAIN-USERS-AND-ROLES-RELATIONSHIP-AND-KEYS.svg)
 ---
 
 # ROLE_CATEGORIES – ROLES Relationship Solution
