@@ -81,8 +81,6 @@ Each user-role assignment has an independent status. The assignment status must 
 
 The status model is illustrated below.
 
-![DATABASE-USER-DOMAIN-USERSTATUS-VS-USERROLESTATUS]
-
 ### 5.2 `UserRoleActiveNow`
 
 **Purpose:** Indicates whether a particular role assignment represents the user's currently active role context.
@@ -208,8 +206,6 @@ Storing role identifiers in `ROLECATEGORIES` would not represent the One-to-Many
 - Nullability: `NOT NULL`
 - Junction Table: Not required
 
-![002-DATABASE-USER-DOMAIN-ROLE-ROLECATEGORY-RELATIONSHIP-AND-KEYS-SOLUTION](/RELATIONS-AND-KEYS-SOLUTION/DATABASE-USER-DOMAIN/RELATIONSHIP-IMAGERS/002-DATABASE-USER-DOMAIN-ROLE-ROLECATEGORY-RELATIONSHIP-AND-KEYS-SOLUTION.svg)
-
 ---
 
 # USER_ROLE – BUSINESS_INFORMATION Relationship Solution
@@ -305,3 +301,4 @@ However, these constraints alone cannot guarantee that every role assignment req
 The exact enforcement mechanism will be addressed in the relevant implementation and constraints stages.
 
 
+![000-DATABASE-USER-DOMAIN-RELATIONSHIP-SOLUTION](/005-RELATIONSHIP-SOLUTION/USER-DOMAIN/KEYS-IMAGES/000-DATABASE-USER-DOMAIN-RELATIONSHIP-SOLUTION.svg)
