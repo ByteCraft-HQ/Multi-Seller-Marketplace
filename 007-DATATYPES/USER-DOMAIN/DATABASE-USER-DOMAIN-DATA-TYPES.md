@@ -204,3 +204,5 @@ This document defines the selected SQL Server data types for the attributes in t
 - `VARCHAR` is used for predefined internal system status values that use English characters.
 - Email format validation and verification operations are handled by the application layer.
 - The selected lengths are based on the current requirements and may be reviewed if the requirements change.
+
+![000-DATABASE-USER-DOMAIN-DATATYPES](/007-DATATYPES/USER-DOMAIN/000-DATABASE-USER-DOMAIN-DATATYPES.svg)
