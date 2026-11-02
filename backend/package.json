@@ -1,0 +1,13 @@
+{
+  "name": "marketplace-backend",
+  "version": "1.0.0",
+  "description": "Multi-Seller Marketplace Backend",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
