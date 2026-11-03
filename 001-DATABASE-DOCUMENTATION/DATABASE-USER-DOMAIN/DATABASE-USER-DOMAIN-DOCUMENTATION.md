@@ -284,6 +284,14 @@ Unlike `UserEmail`, the recovery email address is not required to be unique acro
 - **Uniqueness:** Not required to be unique across accounts.
 - **Attribute classification:** Simple attribute.
 
+**RecoveryEmail Usage Restriction**
+
+- A single `RecoveryEmail` can be associated with a maximum of **3 users**.
+- The same `RecoveryEmail` must never be assigned to more than 3 users.
+- Any attempt to assign the same `RecoveryEmail` to a fourth user must be rejected.
+- This validation must apply to both `INSERT` and `UPDATE` operations.\
+- Concurrent requests must be handled safely to prevent multiple users from exceeding the limit simultaneously.
+
 ### 3.12. UserRecoveryEmailVerification
 
 **Purpose:** Records the verification status of the recovery email address.
@@ -387,7 +395,7 @@ Unlike the other attributes documented as simple attributes, `UserPhoneNumber` i
 
 - **Requirement:** At least one phone number is required.
 - **Attribute classification:** Multi-valued attribute.
-
+- **UserPhoneNumber:** Is Unique Value 
 The database structure used to represent multiple phone numbers, along with the associated relationships and constraints, will be documented in the relevant design stages.
 
 ---
