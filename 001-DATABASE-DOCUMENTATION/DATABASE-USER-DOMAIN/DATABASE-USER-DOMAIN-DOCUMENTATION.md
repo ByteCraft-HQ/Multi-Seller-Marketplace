@@ -565,17 +565,17 @@ The definition of a role remains distinct from the assignment of that role to a 
 
 ## 1. Table Overview
 
-**Domain:** `USER-DOMAIN`  
-**Table:** `ROLE_CATEGORIES`  
+**Domain:** USER-DOMAIN  
+**Table:** ROLE_CATEGORIES  
 **Scope:** Table Purpose, Business Rules, and Attribute Descriptions
 
 ### 1.1 Purpose
 
-The `ROLE_CATEGORIES` table stores the categories used to classify roles within the system.
+The ROLE_CATEGORIES table stores the categories used to classify roles within the system.
 
-Each role belongs to a particular category, allowing the system to identify which roles fall under each classification. The system may contain numerous categories representing different groups, including `System Visitor`, `System Employee`, support-related categories, technical support categories, and other categories introduced as the system evolves.
+Each role belongs to a particular category, allowing the system to identify which roles fall under each classification. The system may contain numerous categories representing different groups, including System Visitor, System Employee, support-related categories, technical support categories, and other categories introduced as the system evolves.
 
-Role categories are not limited to classification purposes. They also provide a place to maintain category-related information, such as the category's name, status, managers, and creation timestamp.
+Role categories are not limited to classification purposes. They also provide a place to maintain category-related information, such as the category's name, status, manager, and creation timestamp.
 
 Maintaining role categories in a dedicated table supports centralized category management and provides a foundation for managing categories as the system grows.
 
@@ -589,12 +589,12 @@ This rule establishes that a user may belong to multiple role categories simulta
 
 ### 1.3 Table Responsibilities
 
-The `ROLE_CATEGORIES` table is intended to support the following responsibilities:
+The ROLE_CATEGORIES table is intended to support the following responsibilities:
 
 - Identifying the category under which roles are classified.
 - Maintaining the name of each category.
 - Recording the current status of each category.
-- Recording the manager or managers responsible for a category.
+- Recording the manager responsible for a category.
 - Recording when a category was created.
 - Providing a basis for managing category changes, including scenarios in which a category is divided into multiple categories.
 
@@ -602,46 +602,46 @@ The detailed behavior of category changes, category division, management respons
 
 ## 2. Attribute Descriptions
 
-### 2.1 `CategoryName`
+### 2.1 CategoryName
 
 **Purpose:** Stores the name of the role category.
 
 **Description:**
 
 - Identifies the category under which roles are classified.
-- The value is required and shall not be `NULL`.
+- The value is required and shall not be NULL.
 - Each category name must be unique to distinguish one category from another and avoid duplicate category names.
 - The name provides a human-readable identifier for the category.
 
 **Attribute Classification:** Simple Attribute
 
-### 2.2 `CategoryStatus`
+### 2.2 CategoryStatus
 
 **Purpose:** Represents the current status of the role category within the system.
 
 **Description:**
 
 - Indicates the current state of the category.
-- The value is required and shall not be `NULL`.
+- The value is required and shall not be NULL.
 - The attribute is intended to represent the category's status as its circumstances change over time.
 - The permitted status values and their meanings will be specified in the appropriate design stage.
 
 **Attribute Classification:** Simple Attribute
 
-### 2.3 `CategoryManager`
+### 2.3 RoleCategoryManager
 
-**Purpose:** Identifies the manager or managers responsible for a role category.
+**Purpose:** Identifies the manager responsible for a role category.
 
 **Description:**
 
-- Stores the name or names of the manager or managers responsible for the category.
-- Every category must have at least one manager; therefore, the attribute is required.
-- A category may have multiple managers, making this a multi-valued attribute.
-- This attribute describes management responsibility for the category without attempting to document the full organizational management structure.
+- Stores the name of the manager responsible for the category.
+- The value is required and shall not be NULL.
+- Each category must have one designated manager responsible for it.
+- The attribute represents the management responsibility assigned to the category without attempting to document the full organizational management structure.
 
-**Attribute Classification:** Multi-Valued Attribute
+**Attribute Classification:** Simple Attribute
 
-### 2.4 `CategoryCreatedAt`
+### 2.4 CategoryCreatedAt
 
 **Purpose:** Records when the role category was created.
 
@@ -650,15 +650,15 @@ The detailed behavior of category changes, category division, management respons
 - Stores the creation timestamp of the category.
 - Records when the category was initially established in the system.
 - Provides historical information that can support auditing, traceability, and operational review.
-- The attribute's detailed behavior in category lifecycle scenarios will be addressed in the `Lifecycle and Decision Finalization` stage.
+- The attribute's detailed behavior in category lifecycle scenarios will be addressed in the Lifecycle and Decision Finalization stage.
 
 **Attribute Classification:** Simple Attribute
 
 ## 3. Summary
 
-The `ROLE_CATEGORIES` table provides a centralized way to classify roles and maintain category-related information.
+The ROLE_CATEGORIES table provides a centralized way to classify roles and maintain category-related information.
 
-Its attributes identify each category, represent its current status, identify its manager or managers, and record its creation timestamp.
+Its attributes identify each category, represent its current status, identify its designated manager, and record its creation timestamp.
 
 The table establishes the basis for category management while leaving relationship design, normalization, implementation details, and final lifecycle decisions to their designated stages.
 
