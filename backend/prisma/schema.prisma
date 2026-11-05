@@ -1,0 +1,103 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model BUSINESS_INFORMATION {
+  BusinessInformationId                    BigInt                             @id(map: "PK_BUSINESS_INFORMATION") @default(autoincrement())
+  UserRoleId                               BigInt                             @unique(map: "UQ_BUSINESS_INFORMATION_UserRoleId")
+  CompanyRegistrationNumber                String                             @db.VarChar(50)
+  BusinessInformationBusinessCountry       String                             @db.NVarChar(100)
+  BusinessInformationBusinessPostalCode    String                             @db.VarChar(50)
+  BusinessInformationBusinessType          String                             @db.VarChar(10)
+  BusinessInformationBusinessLegalName     String                             @db.NVarChar(200)
+  BusinessInformationBirthCertificateImage String                             @db.VarChar(500)
+  BusinessInformationNationalId            String                             @db.NVarChar(50)
+  BusinessInformationNationalIdCardImage   String                             @db.VarChar(500)
+  BusinessInformationBusinessRegister      String                             @db.VarChar(500)
+  USER_ROLE                                USER_ROLE                          @relation(fields: [UserRoleId], references: [UserRoleId], onUpdate: NoAction, map: "FK_BUSINESS_INFORMATION_USER_ROLE")
+  BUSINESS_INFORMATION_EMAIL               BUSINESS_INFORMATION_EMAIL[]
+  BUSINESS_INFORMATION_PHONENUMBER         BUSINESS_INFORMATION_PHONENUMBER[]
+}
+
+model BUSINESS_INFORMATION_EMAIL {
+  BusinessInformationId                BigInt
+  BusinessInformationEmail             String               @db.NVarChar(320)
+  BusinessInformationEmailVerification Boolean              @default(false, map: "DF_BIEMAIL_Verification")
+  BusinessInformationEmailStatus       String               @default("ACTIVE", map: "DF_BIEMAIL_Status") @db.VarChar(20)
+  BUSINESS_INFORMATION                 BUSINESS_INFORMATION @relation(fields: [BusinessInformationId], references: [BusinessInformationId], onUpdate: NoAction, map: "FK_BIEMAIL_BUSINESS_INFORMATION")
+
+  @@id([BusinessInformationId, BusinessInformationEmail], map: "PK_BUSINESS_INFORMATION_EMAIL")
+}
+
+model BUSINESS_INFORMATION_PHONENUMBER {
+  BusinessInformationPhoneNumber       String               @id(map: "PK_BUSINESS_INFORMATION_PHONENUMBER") @db.NVarChar(25)
+  BusinessInformationId                BigInt
+  BusinessInformationPhoneVerification Boolean              @default(false, map: "DF_BIPHONE_Verification")
+  BusinessInformationPhoneNumberStatus String               @default("ACTIVE", map: "DF_BIPHONE_Status") @db.VarChar(20)
+  BUSINESS_INFORMATION                 BUSINESS_INFORMATION @relation(fields: [BusinessInformationId], references: [BusinessInformationId], onUpdate: NoAction, map: "FK_BIPHONE_BUSINESS_INFORMATION")
+}
+
+model ROLE_CATEGORIES {
+  RoleCategoryName      String   @id(map: "PK_ROLE_CATEGORIES") @db.VarChar(50)
+  RoleCategoryStatus    String   @default("ACTIVE", map: "DF_ROLE_CATEGORIES_Status") @db.VarChar(20)
+  RoleCategoryCreatedAt DateTime @default(dbgenerated("sysutcdatetime()"), map: "DF_ROLE_CATEGORIES_CreatedAt")
+  RoleCategoryManager   String   @db.NVarChar(50)
+  ROLES                 ROLES[]
+}
+
+model ROLES {
+  RoleId           Int             @id(map: "PK_ROLES") @default(autoincrement()) @db.TinyInt
+  RoleCategoryName String          @db.VarChar(50)
+  RoleName         String          @unique(map: "UQ_ROLES_RoleName") @db.VarChar(50)
+  RoleStatus       String          @default("ACTIVE", map: "DF_ROLES_Status") @db.VarChar(20)
+  RoleCreatedAt    DateTime        @default(dbgenerated("sysutcdatetime()"), map: "DF_ROLES_CreatedAt")
+  ROLE_CATEGORIES  ROLE_CATEGORIES @relation(fields: [RoleCategoryName], references: [RoleCategoryName], map: "FK_ROLES_ROLE_CATEGORIES")
+  USER_ROLE        USER_ROLE[]
+}
+
+model USER_ROLE {
+  UserRoleId           BigInt                @id(map: "PK_USER_ROLE") @default(autoincrement())
+  UserId               BigInt
+  RoleId               Int                   @db.TinyInt
+  UserRoleStatus       String                @default("ACTIVE", map: "DF_USER_ROLE_Status") @db.VarChar(20)
+  UserRoleActiveNow    Boolean               @default(false, map: "DF_USER_ROLE_ActiveNow")
+  BUSINESS_INFORMATION BUSINESS_INFORMATION?
+  ROLES                ROLES                 @relation(fields: [RoleId], references: [RoleId], onUpdate: NoAction, map: "FK_USER_ROLE_ROLES")
+  USERS                USERS                 @relation(fields: [UserId], references: [UserId], onUpdate: NoAction, map: "FK_USER_ROLE_USERS")
+
+  @@unique([UserId, RoleId], map: "UQ_User_Role")
+}
+
+model USERPHONENUMBER {
+  UserId                      BigInt
+  UserPhoneNumber             String  @id(map: "PK_USERPHONENUMBER") @db.NVarChar(25)
+  UserPhoneNumberVerification Boolean @default(false, map: "DF_USERPHONENUMBER_Verification")
+  UserPhoneNumberStatus       String  @default("PENDING", map: "DF_USERPHONENUMBER_Status") @db.VarChar(20)
+  USERS                       USERS   @relation(fields: [UserId], references: [UserId], onUpdate: NoAction, map: "FK_USERPHONENUMBER_USERS")
+}
+
+model USERS {
+  UserId                        BigInt            @id(map: "PK_USERS") @default(autoincrement())
+  UserFirstName                 String            @db.NVarChar(50)
+  UserMiddleName                String?           @db.NVarChar(50)
+  UserLastName                  String?           @db.NVarChar(50)
+  UserEmail                     String            @unique(map: "UQ_USERS_UserEmail") @db.NVarChar(320)
+  UserEmailVerification         Boolean           @default(false, map: "DF_USERS_UserEmailVerification")
+  UserHashPassword              String            @db.VarChar(255)
+  UserAccountStatus             String            @default("PENDING", map: "DF_USERS_UserAccountStatus") @db.VarChar(20)
+  UserDeletedAt                 DateTime?
+  UserDeletedAtReason           String?           @db.VarChar(30)
+  UserDeletedAtTextReason       String?           @db.NVarChar(150)
+  UserRecoveryEmail             String?           @db.NVarChar(320)
+  UserRecoveryEmailVerification Boolean?
+  UserBirthDate                 DateTime?         @db.Date
+  UserGender                    String?           @db.VarChar(10)
+  UserCreatedAt                 DateTime          @default(dbgenerated("sysutcdatetime()"), map: "DF_USERS_UserCreatedAt")
+  USER_ROLE                     USER_ROLE[]
+  USERPHONENUMBER               USERPHONENUMBER[]
+}
