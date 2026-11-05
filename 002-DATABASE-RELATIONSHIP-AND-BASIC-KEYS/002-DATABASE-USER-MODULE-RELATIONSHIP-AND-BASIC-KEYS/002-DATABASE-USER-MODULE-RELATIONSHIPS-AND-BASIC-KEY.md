@@ -1,14 +1,20 @@
-# USER-DOMAIN — Relationship Documentation
+# USER-DOMAIN — Relationships and Basic Keys Documentation
 
 ## 1. Overview
 
 **Domain:** `USER-DOMAIN`  
-**Stage:** Relationships  
-**Scope:** Relationship Identification, Cardinality, Participation, and Business Rationale
+**Stage:** Relationships and Basic Keys  
+**Scope:** Relationship Identification, Cardinality, Participation, Business Rationale, and Initial Basic Key Identification.
 
 This document defines the relationships between the `USERS`, `ROLES`, `ROLE_CATEGORIES`, and `BUSINESS_INFORMATION` tables.
 
-The relationships are documented according to the current business rules and design decisions. Their physical implementation, key selection, and detailed resolution will be addressed in the relevant design stages.
+It also identifies the initial Basic Keys used temporarily during the initial First Normal Form (1NF) stage.
+
+The relationships and keys are documented according to the current business rules and design decisions. Their physical implementation, final key selection, and detailed resolution will be addressed in the relevant design stages.
+
+---
+
+# Part I — Relationship Documentation
 
 ## 2. Relationship 1: USERS and ROLES
 
@@ -56,7 +62,7 @@ It also establishes that every user must have at least one role, while allowing 
 
 The implementation of this many-to-many relationship will be addressed in the `Relationship Solution` stage.
 
-![001-DATABASE-USERS-ROLES-USER-DOMAIN-RELATIONSHIP-AND-KEYS](/RELATIONS-AND-KEYS/DATABASE-USER-DOMAIN/RELATIONSHIP-IMAGE/001-DATABASE-USERS-ROLES-USER-DOMAIN-RELATIONSHIP-AND-KEYS.svg)
+![001-DATABASE-USERS-ROLES-USER-MODULE-RELATIONSHIP](/002-DATABASE-RELATIONSHIP-AND-BASIC-KEYS/002-DATABASE-USER-MODULE-RELATIONSHIP-AND-BASIC-KEYS/002-RELATIONSHIP-AND-BASIC-KEY-IMAGES/001-DATABASE-USERS-ROLES-USER-MODULE-RELATIONSHIP.svg)
 
 ---
 
@@ -103,7 +109,7 @@ It also establishes that each role has one specific category, preventing a role 
 
 The implementation of this relationship will be addressed in the `Relationship Solution` stage.
 
-![002-DATABASE-ROLES-ROLECATEGORY-USER-DOMAIN-RELATIONSHIP-AND-KEYS](/RELATIONS-AND-KEYS/DATABASE-USER-DOMAIN/RELATIONSHIP-IMAGE/002-DATABASE-ROLES-ROLECATEGORY-USER-DOMAIN-RELATIONSHIP-AND-KEYS.svg)
+![002-DATABASE-ROLES-ROLECATEGORY-USER-MODULE-RELATIONSHIP](/002-DATABASE-RELATIONSHIP-AND-BASIC-KEYS/002-DATABASE-USER-MODULE-RELATIONSHIP-AND-BASIC-KEYS/002-RELATIONSHIP-AND-BASIC-KEY-IMAGES/002-DATABASE-ROLES-ROLECATEGORY-USER-MODULE-RELATIONSHIP.svg)
 
 ---
 
@@ -159,7 +165,7 @@ The specific roles that require business information will be identified in a sep
 
 The implementation of this relationship will be addressed in the `Relationship Solution` stage.
 
-![003-DATABASE-USERS-BSUINESSINFORMATION-USER-DOMAIN-REATIONSHIP-AND-KEYS](/RELATIONS-AND-KEYS/DATABASE-USER-DOMAIN/RELATIONSHIP-IMAGE/003-DATABASE-USERS-BSUINESSINFORMATION-USER-DOMAIN-REATIONSHIP-AND-KEYS.svg)
+![003-DATABASE-USERS-BSUINESSINFORMATION-USER-MODULE-REATIONSHIP](/002-DATABASE-RELATIONSHIP-AND-BASIC-KEYS/002-DATABASE-USER-MODULE-RELATIONSHIP-AND-BASIC-KEYS/002-RELATIONSHIP-AND-BASIC-KEY-IMAGES/003-DATABASE-USERS-BSUINESSINFORMATION-USER-MODULE-REATIONSHIP.svg)
 
 ---
 
@@ -171,22 +177,126 @@ The implementation of this relationship will be addressed in the `Relationship S
 | `ROLE_CATEGORIES` — `ROLES` | One-to-Many | Every role must belong to exactly one category; a category may have no roles. |
 | `USERS` — `BUSINESS_INFORMATION` | One-to-Many | A user may have no business profiles or multiple profiles; every profile must belong to exactly one user. |
 
-## 6. Scope and Future Decisions
+![000-DATABASE-USER-MODULE-RELATIONSHIP](/002-DATABASE-RELATIONSHIP-AND-BASIC-KEYS/002-DATABASE-USER-MODULE-RELATIONSHIP-AND-BASIC-KEYS/002-RELATIONSHIP-AND-BASIC-KEY-IMAGES/000-DATABASE-USER-MODULE-RELATIONSHIP.svg)
 
-This document records the current relationship requirements and their business rationale.
+---
+
+# Part II — Basic Keys for the Initial 1NF Stage
+
+## 6. Purpose of Basic Keys
+
+At this stage, we will use **Basic Keys** as temporary identifiers for the entities in our domain. These keys are intended to help us organize the tables and handle multivalued attributes while working toward First Normal Form (1NF).
+
+**Important:** These are not the final primary keys of the database. They are temporary identifiers that may change once we analyze the functional dependencies and finalize the data model.
+
+Our current approach is to establish 1NF before analyzing functional dependencies. Therefore, we need simple, unique identifiers to reference records and organize the data during this initial stage.
+
+## 7. Basic Keys for Each Table
+
+### 7.1 USERS Table
+
+- **Basic Key:** `UserEmail`
+
+We will temporarily use `UserEmail` as the basic identifier for the `USERS` table because it is expected to be unique for each user and can identify an individual record.
+
+### 7.2 ROLES Table
+
+- **Basic Key:** `RoleName`
+
+We will temporarily use `RoleName` as the basic identifier for the `ROLES` table, assuming that each role has a unique name.
+
+### 7.3 ROLE_CATEGORIES Table
+
+- **Basic Key:** `RoleCategoryName`
+
+We will temporarily use `RoleCategoryName` as the basic identifier for the `ROLE_CATEGORIES` table, assuming that each category name uniquely identifies a category.
+
+### 7.4 BUSINESS_INFORMATION Table
+
+- **Basic Key:** `BusinessInformationNationalId`
+
+We will temporarily use `BusinessInformationNationalId` as the basic identifier for the `BUSINESS_INFORMATION` table, assuming that each national ID uniquely identifies a business information record.
+
+## 8. Why Are We Using Basic Keys?
+
+The main reason for introducing these keys is to maintain a clear structure while handling multivalued attributes during the initial normalization stage.
+
+Since our current workflow prioritizes 1NF before functional dependency analysis, we need identifiers that allow us to reference the original records when separating multivalued attributes into different tables.
+
+These Basic Keys help us:
+
+- Identify records during the initial design stage.
+- Maintain references between tables when separating multivalued attributes.
+- Organize the schema before determining the final keys.
+- Make it easier to revise the model as we proceed with normalization.
+
+## 9. Why Did We Choose These Specific Attributes?
+
+We selected these attributes because they are expected to be unique within their respective tables and can therefore serve as temporary record identifiers.
+
+However, **uniqueness at this stage does not automatically make an attribute the final primary key**. Each attribute must be validated against the actual business rules and data constraints.
+
+For example, `UserEmail` may be unique under the current requirements, but we may later decide to introduce a surrogate key such as `UserId`.
+
+The same principle applies to the other tables.
+
+## 10. Relationship Between Basic Keys and Functional Dependencies
+
+Once we complete the initial 1NF stage, we will analyze the functional dependencies within each table.
+
+This analysis will help us determine:
+
+- The actual candidate keys.
+- The appropriate primary key for each table.
+- Whether any attributes should be replaced by surrogate keys.
+- Whether additional decomposition is required to achieve higher normal forms.
+
+The final key design must be based on the functional dependencies, candidate keys, and business rules rather than on our initial assumptions alone.
+
+It is also important to note that functional dependencies do not necessarily produce a new key in every case. They help us identify the candidate keys and understand the relationships between attributes.
+
+## 11. Can Basic Keys Change Later?
+
+**Yes. These keys are temporary and can be changed.**
+
+For example, we may replace a natural key such as `UserEmail` with a surrogate key such as `UserId` after completing the analysis.
+
+This is an expected part of the design process. The purpose of the current keys is to support the initial table structure, not to lock us into a final database design.
+
+We will finalize the keys only after reviewing the functional dependencies and validating the complete domain model.
+
+## 12. Final Clarification
+
+To avoid any misunderstanding, the attributes listed above are **Basic Keys for the initial 1NF stage, not the confirmed final primary keys**.
+
+We are using them because they are expected to be unique and can temporarily identify records while we organize the tables and handle multivalued attributes.
+
+After completing 1NF, we will analyze the functional dependencies and determine the appropriate candidate keys and final primary keys. If necessary, we will introduce surrogate keys or revise the existing identifiers.
+
+**The objective is to establish a workable initial structure without making premature decisions about the final key design.**
+
+![000-DATABASE-USER-MODULE-BASIC-KEYS](/002-DATABASE-RELATIONSHIP-AND-BASIC-KEYS/002-DATABASE-USER-MODULE-RELATIONSHIP-AND-BASIC-KEYS/002-RELATIONSHIP-AND-BASIC-KEY-IMAGES/000-DATABASE-USER-MODULE-BASIC-KEYS.svg)
+
+---
+
+# Part III — Scope and Future Decisions
+
+## 13. Scope and Future Decisions
+
+This document records the current relationship requirements and initial Basic Key decisions.
 
 The following topics remain assigned to their designated stages:
 
 - **Advanced Keys and Description:** Identification and documentation of the relevant keys.
 - **Relationship Solution:** Determining how the relationships will be implemented.
-- **Functional Dependency:** Analyzing the functional dependencies associated with the entities and relationships.
+- **Functional Dependencies:** Analyzing the functional dependencies associated with the entities and relationships.
 - **Normalization:** Evaluating the database structure and normalization requirements.
-- **Edge Cases and Edge Cases Solution:** Examining exceptional scenarios and defining their solutions.
+- **Edge Cases and Edge Case Solutions:** Examining exceptional scenarios and defining their solutions.
 - **Data Types and Constraints:** Defining the appropriate implementation details and enforcement rules.
 - **Lifecycle and Decision Finalization:** Finalizing lifecycle behavior and resolving outstanding design decisions.
 - **Indexing Basics:** Documenting indexing decisions.
 
-The relationships documented here represent the current design decisions. Any required changes will be reviewed in the appropriate stage rather than assumed in advance.
+The relationships and Basic Keys documented here represent the current design decisions and assumptions.
 
-![000-USER-DOMAIN-RELATIONSHIP-AND-KEYS](/RELATIONS-AND-KEYS/DATABASE-USER-DOMAIN/RELATIONSHIP-IMAGE/000-USER-DOMAIN-RELATIONSHIP-AND-KEYS.svg)
+Any required changes will be reviewed in the appropriate stage rather than assumed in advance.
 
