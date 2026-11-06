@@ -79,6 +79,8 @@ The composite key represents the business uniqueness of the assignment, but its 
 | Uniqueness Requirement | `(UserId, RoleId)` must be unique |
 | Natural Key | None identified |
 
+![001-DATABASE-USER-DOMAIN-USERS-AND-ROLES-RELATIONSHIP-AND-KEYS](/005-DATABASE-RELATIONSHIP-SOLUTION/005-DATABASE-USER-MODULE-RELATIONSHIP-SOLUTION/005-RELATIONSHIP-SONLUTION/001-DATABASE-USER-DOMAIN-USERS-AND-ROLES-RELATIONSHIP-AND-KEYS.svg)
+
 ---
 
 # ROLE_CATEGORIES – ROLES Keys Solution
@@ -121,6 +123,8 @@ The foreign key also ensures that the assigned category exists in `ROLE_CATEGORI
 
 No junction table is required for this relationship because each role belongs to exactly one category, while a category may contain multiple roles.
 
+![002-DATABASE-USER-DOMAIN-ROLE-ROLECATEGORY-RELATIONSHIP-AND-KEYS-SOLUTIO](/005-DATABASE-RELATIONSHIP-SOLUTION/005-DATABASE-USER-MODULE-RELATIONSHIP-SOLUTION/005-RELATIONSHIP-SONLUTION/002-DATABASE-USER-DOMAIN-ROLE-ROLECATEGORY-RELATIONSHIP-AND-KEYS-SOLUTION.svg)
+
 ---
 
 # USER_ROLE – BUSINESS_INFORMATION Keys Solution
@@ -159,5 +163,7 @@ These requirements reflect the established One-to-One relationship, with optiona
 | `UserRoleId` | Foreign Key (FK) | `NOT NULL` and `UNIQUE` |
 
 The existing Primary Key of `BUSINESS_INFORMATION` remains unchanged. `UserRoleId` is added as a Foreign Key to reference `USER_ROLE.UserRoleId`.
+
+![003-DATABASE-USER-DOMAIN-USERROLE-BUSINESSINFORMATION-RELATIONSHIP-AND-KEYS-SOLUTION](/005-DATABASE-RELATIONSHIP-SOLUTION/005-DATABASE-USER-MODULE-RELATIONSHIP-SOLUTION/005-RELATIONSHIP-SONLUTION/003-DATABASE-USER-DOMAIN-USERROLE-BUSINESSINFORMATION-RELATIONSHIP-AND-KEYS-SOLUTION.svg)
 
 
