@@ -205,4 +205,4 @@ This document defines the selected SQL Server data types for the attributes in t
 - Email format validation and verification operations are handled by the application layer.
 - The selected lengths are based on the current requirements and may be reviewed if the requirements change.
 
-![000-DATABASE-USER-DOMAIN-DATATYPES](/007-DATATYPES/USER-DOMAIN/000-DATABASE-USER-DOMAIN-DATATYPES.svg)
+![000-DATABASE-USER-MODULE-DATATYPES](/007-DATABASE-DATATYPES/007-DATABASE-USER-MODULE-DATATYPES/000-DATABASE-USER-MODULE-DATATYPES.svg)
