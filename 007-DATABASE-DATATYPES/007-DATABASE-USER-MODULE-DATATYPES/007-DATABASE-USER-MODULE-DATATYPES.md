@@ -1,3 +1,5 @@
+Version: 0.0.2
+
 # USERS — Data Types Documentation
 
 This document defines the selected SQL Server data types for the attributes in the `USERS` table, along with the reasoning behind each selection.
@@ -130,6 +132,8 @@ This document defines the selected SQL Server data types for the attributes in t
 
 # BUSINESS_INFORMATION — Data Types Documentation
 
+**Version:** 0.0.2
+
 This document defines the selected SQL Server data types for the attributes in the `BUSINESS_INFORMATION` table, along with the reasoning behind each selection.
 
 ## Data Types and Justifications
@@ -139,11 +143,11 @@ This document defines the selected SQL Server data types for the attributes in t
 | `CompanyRegistrationNumber` | `VARCHAR` | 50 | Stores the official company registration number as text rather than a numeric value to preserve leading zeros and support different registration formats across countries, including formats containing letters and special characters. |
 | `UserRoleId` | `BIGINT` | — | Maintains data type compatibility with the referenced `UserRoleId` in the `USER_ROLE` table, allowing it to function as a foreign key. |
 | `BusinessInformationId` | `BIGINT` | — | Provides a large numeric range for uniquely identifying business information records. |
-| `BusinessInformationBusinessCountry` | `NVARCHAR` | 100 | Stores the business location's country name and supports Unicode characters and different country naming formats. |
+| `CountryCode` | `CHAR` | 2 | Stores the two-character country code used to identify the business's country. The fixed-length `CHAR(2)` data type is suitable because country codes follow the ISO 3166-1 Alpha-2 format. |
 | `BusinessInformationBusinessPostalCode` | `VARCHAR` | 50 | Stores postal codes as text rather than numeric values to preserve leading zeros and support alphanumeric formats, spaces, and special characters. |
 | `BusinessInformationBusinessType` | `VARCHAR` | 10 | Stores predefined business type values, such as `COMPANY`, `INDIVIDUAL`, and `STORE`, using English characters. |
 | `BusinessInformationBusinessLegalName` | `NVARCHAR` | 200 | Stores the official legal name of the business or individual as recorded in the relevant legal documents. `NVARCHAR` supports Unicode characters and different languages. |
-| `BusinessInformationBirthCertificateImage` | `VARCHAR` | 500 | Stores the URL of the birth certificate image rather than the image itself. |
+| `BusinessInformationBirthCertificateImage` | `VARCHAR` | 500 | Stores the URL of the intended band image rather than the image itself. |
 | `BusinessInformationNationalId` | `NVARCHAR` | 50 | Stores national identification numbers as text to preserve leading zeros and support different identification formats across countries, including formats containing letters or special characters. |
 | `BusinessInformationNationalIdCardImage` | `VARCHAR` | 500 | Stores the URL of the national identification card image rather than the image itself. |
 | `BusinessInformationBusinessRegister` | `VARCHAR` | 500 | Stores the URL of the business registration document rather than the document image itself. |
@@ -156,6 +160,28 @@ This document defines the selected SQL Server data types for the attributes in t
 - `NVARCHAR` is used for text values that may contain Unicode characters.
 - Postal codes and identification numbers are stored as text rather than numeric values because they are identifiers, not values intended for arithmetic operations.
 - Image and document attributes store URLs rather than binary file contents.
+- `CountryCode` uses `CHAR(2)` to store two-character country codes.
+- The selected lengths are based on the current requirements and may be reviewed if the requirements change.
+
+---
+
+# BUSINESS_INFORMATION_COUNTRY — Data Types Documentation
+
+This document defines the selected SQL Server data types for the attributes in the `BUSINESS_INFORMATION_COUNTRY` table, along with the reasoning behind each selection.
+
+## Data Types and Justifications
+
+| Attribute | Data Type | Length | Justification |
+|---|---|---:|---|
+| `BusinessInformationBusinessCountry` | `NVARCHAR` | 100 | Stores the country name and supports Unicode characters and different country naming formats. |
+| `CountryCode` | `CHAR` | 2 | Stores the ISO 3166-1 Alpha-2 country code using exactly two characters. |
+
+## Additional Notes
+
+- `NVARCHAR(100)` supports country names containing Unicode characters.
+- `CHAR(2)` is used because the country code has a fixed length of two characters.
+- `CountryCode` will serve as the identifier referenced by `BUSINESS_INFORMATION`.
+- The Primary Key and Foreign Key constraints will be documented separately in the Keys Documentation.
 - The selected lengths are based on the current requirements and may be reviewed if the requirements change.
 
 ---
