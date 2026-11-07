@@ -169,6 +169,35 @@ The implementation of this relationship will be addressed in the `Relationship S
 
 ---
 
+### EC-BI-001: Country Separation into a Reference Table
+
+**Related Document:** `006-DATABASE-USER-MODULE-EDGECASES-AND-SOLUTION`
+
+**Status:** Accepted — Separate `BUSINESS_INFORMATION_COUNTRY` Table.
+
+#### Relationship and Cardinality
+
+The relationship between `BUSINESS_INFORMATION_COUNTRY` and `BUSINESS_INFORMATION` is **One-to-Many (1:N)**.
+
+- **BUSINESS_INFORMATION_COUNTRY:** Optional participation (0..N). A country record may exist without being referenced by any business information record.
+- **BUSINESS_INFORMATION:** Mandatory participation (1..1). Every business information record must reference exactly one country record through `CountryCode`.
+
+#### Relationship Explanation
+
+This relationship was established after identifying and resolving the country-related edge case documented in `006-DATABASE-USER-MODULE-EDGECASES-AND-SOLUTION`.
+
+The country attribute was separated from `BUSINESS_INFORMATION` into a dedicated reference table to maintain consistent country names and codes and avoid storing country information repeatedly.
+
+As a result, each `BUSINESS_INFORMATION` record must reference an existing country, while a country can exist in the reference table without having any associated business information records.
+
+#### Referential Implementation
+
+- `BUSINESS_INFORMATION.CountryCode` is `NOT NULL`.
+- `BUSINESS_INFORMATION.CountryCode` references `BUSINESS_INFORMATION_COUNTRY.CountryCode` through a Foreign Key.
+- The Foreign Key uses `ON UPDATE NO ACTION` and `ON DELETE NO ACTION`.
+
+---
+
 ## 5. Consolidated Relationship Summary
 
 | Relationship | Cardinality | Participation Rule |
