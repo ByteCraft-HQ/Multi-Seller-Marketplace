@@ -1,4 +1,4 @@
-
+VERSION 0.0.2
 
 # USERS — Constraints Documentation
 
@@ -1235,19 +1235,22 @@ An additional index on `BusinessInformationEmail` may be considered to support e
 - **Nullability:** `NOT NULL`
 
 **Rule:**
+
 Each business information record must have a unique identifier.
 
 **Enforcement:**
+
 SQL Server automatically generates the identifier using `IDENTITY(1,1)`, while the primary key guarantees uniqueness and prevents NULL values.
 
 **Reason:**
+
 Provides a stable identifier for each business information record.
 
 ---
 
 ## 2. Foreign Key (FK)
 
-### UserRoleId
+### 2.1 UserRoleId
 
 - **Constraint:** `FOREIGN KEY`
 - **Nullability:** `NOT NULL`
@@ -1255,10 +1258,10 @@ Provides a stable identifier for each business information record.
 - **Referenced Column:** `UserRoleId`
 
 **Rule:**
+
 Every business information record must belong to an existing user-role assignment.
 
 **Enforcement:**
-A foreign key constraint references `USER_ROLE(UserRoleId)`.
 
 ```sql
 FOREIGN KEY (UserRoleId)
@@ -1268,7 +1271,49 @@ ON DELETE NO ACTION
 ```
 
 **Reason:**
+
 Prevents business information records from referencing non-existing user-role assignments.
+
+### 2.2 CountryCode
+
+- **Constraint:** `FOREIGN KEY`
+- **Data Type:** `CHAR(2)`
+- **Nullability:** `NOT NULL`
+- **Referenced Table:** `BUSINESS_INFORMATION_COUNTRY`
+- **Referenced Column:** `CountryCode`
+
+**Rule:**
+
+Every business information record must reference an existing country through `CountryCode`.
+
+`CountryCode` cannot accept NULL values.
+
+**Enforcement:**
+
+```sql
+FOREIGN KEY (CountryCode)
+REFERENCES BUSINESS_INFORMATION_COUNTRY(CountryCode)
+ON UPDATE NO ACTION
+ON DELETE NO ACTION
+```
+
+**Referential Actions:**
+
+| Action | Behavior |
+|---|---|
+| `ON DELETE NO ACTION` | Prevents physically deleting a country record while business information records reference it. |
+| `ON UPDATE NO ACTION` | Prevents changing a country code while business information records reference it. |
+
+**Reason:**
+
+- Ensures that every business information record is associated with an existing country.
+- Prevents invalid country references.
+- Country codes are treated as stable identifiers and are not expected to change.
+- The system uses Soft Delete rather than physical deletion. Therefore, country records must be retained instead of physically deleted while they are referenced.
+
+**Implementation Note:**
+
+`CountryCode` in `BUSINESS_INFORMATION_COUNTRY` must be a Primary Key or have a UNIQUE constraint to serve as the referenced key. Its key definition will be documented separately in the Keys document.
 
 ---
 
@@ -1280,7 +1325,7 @@ The following attributes must always contain a value:
 |---|---|
 | `BusinessInformationId` | NOT NULL (implied by PK) |
 | `UserRoleId` | NOT NULL |
-| `BusinessInformationBusinessCountry` | NOT NULL |
+| `CountryCode` | NOT NULL |
 | `BusinessInformationBusinessPostalCode` | NOT NULL |
 | `BusinessInformationBusinessType` | NOT NULL |
 | `BusinessInformationBusinessLegalName` | NOT NULL |
@@ -1291,9 +1336,11 @@ The following attributes must always contain a value:
 | `BusinessInformationBusinessRegister` | NOT NULL |
 
 **Rule:**
+
 A business information record cannot be created without the required attributes listed above.
 
 **Reason:**
+
 These attributes are required according to the current business requirements.
 
 ---
@@ -1305,6 +1352,7 @@ These attributes are required according to the current business requirements.
 - **Constraint:** `UNIQUE`
 
 **Rule:**
+
 Each `UserRoleId` can be associated with only one business information record.
 
 **Enforcement:**
@@ -1314,13 +1362,15 @@ UNIQUE (UserRoleId)
 ```
 
 **Reason:**
+
 Enforces the currently established one-to-one relationship between `USER_ROLE` and `BUSINESS_INFORMATION`.
 
-### 4.2 BusinessInformationNationalId
+### 4.2 CountryCode and BusinessInformationNationalId
 
 - **Constraint:** Composite `UNIQUE`
 
 **Rule:**
+
 A National ID must be unique within its issuing country.
 
 The same National ID value may exist in another country.
@@ -1329,19 +1379,21 @@ The same National ID value may exist in another country.
 
 ```sql
 UNIQUE (
-    BusinessInformationBusinessCountry,
+    CountryCode,
     BusinessInformationNationalId
 )
 ```
 
 **Reason:**
+
 National ID numbering systems are generally managed independently by individual countries. Global uniqueness cannot be assumed.
 
-### 4.3 CompanyRegistrationNumber
+### 4.3 CountryCode and CompanyRegistrationNumber
 
 - **Constraint:** Composite `UNIQUE`
 
 **Rule:**
+
 A company registration number must be unique within its country.
 
 The same registration number may exist in another country.
@@ -1350,15 +1402,17 @@ The same registration number may exist in another country.
 
 ```sql
 UNIQUE (
-    BusinessInformationBusinessCountry,
+    CountryCode,
     CompanyRegistrationNumber
 )
 ```
 
 **Reason:**
+
 Company registration numbers are issued under country-specific registration systems.
 
 **Design Note:**
+
 If different registration authorities within the same country can issue overlapping numbers, the uniqueness scope may need to include the issuing authority.
 
 ### 4.4 Attributes Without UNIQUE Constraints
@@ -1373,40 +1427,19 @@ The following attributes do not have independent UNIQUE constraints under the cu
 - `BusinessInformationBusinessRegister`
 
 **Reason:**
+
 Their values are not considered globally unique identifiers for business information records.
 
 ---
 
 ## 5. CHECK Constraints
 
-### 5.1 Business Country
-
-**Attribute:** `BusinessInformationBusinessCountry`
-
-**Rule:**
-- Must not be empty.
-- Must not contain only whitespace.
-- Leading and trailing spaces are not accepted.
-
-**Enforcement:**
-
-```sql
-CHECK (
-    LEN(TRIM(BusinessInformationBusinessCountry)) > 1
-)
-```
-
-**Reason:**
-Prevents empty or whitespace-only country values.
-
-**Pending Decision:**
-The country validation and standardization approach is not finalized yet. The current design may use backend validation against an authoritative country list or a separate `COUNTRIES` reference table.
-
-### 5.2 Business Postal Code
+### 5.1 Business Postal Code
 
 **Attribute:** `BusinessInformationBusinessPostalCode`
 
 **Rule:**
+
 - Must not be empty or whitespace-only.
 - Must not contain leading or trailing spaces.
 - Internal spaces are allowed.
@@ -1427,12 +1460,14 @@ CHECK (
 ```
 
 **Reason:**
+
 Postal codes are alphanumeric identifiers and may contain internal spaces depending on the country's postal system.
 
 **Validation Note:**
+
 Country-specific postal code format validation is handled by the application layer.
 
-### 5.3 Business Type
+### 5.2 Business Type
 
 **Attribute:** `BusinessInformationBusinessType`
 
@@ -1443,9 +1478,11 @@ Country-specific postal code format validation is handled by the application lay
 - `INDIVIDUAL`
 
 **Rule:**
+
 The stored value must match one of the allowed uppercase values exactly.
 
 **Application Layer:**
+
 The application transforms input using:
 
 ```sql
@@ -1462,13 +1499,15 @@ CHECK (
 ```
 
 **Reason:**
+
 Restricts business types to the predefined values and prevents invalid or differently cased values from being stored.
 
-### 5.4 Business Legal Name
+### 5.3 Business Legal Name
 
 **Attribute:** `BusinessInformationBusinessLegalName`
 
 **Rule:**
+
 - Must not be empty.
 - Must not contain only whitespace.
 - Letters, numbers, spaces, and legal punctuation are allowed.
@@ -1484,6 +1523,7 @@ CHECK (
 ```
 
 **Reason:**
+
 A legal business name is descriptive information and is not necessarily unique across different businesses or jurisdictions.
 
 ---
@@ -1501,48 +1541,70 @@ All required values must be supplied through the approved application or databas
 ### 7.1 One Business Information Record Per User Role
 
 **Rule:**
+
 A single `UserRoleId` cannot have multiple business information records.
 
 **Enforcement:**
+
 A UNIQUE constraint on `UserRoleId`.
 
 ### 7.2 National ID Uniqueness Within a Country
 
 **Rule:**
+
 The same National ID cannot be assigned to two business information records within the same country.
 
 **Enforcement:**
+
 A composite UNIQUE constraint on:
 
-- `BusinessInformationBusinessCountry`
+- `CountryCode`
 - `BusinessInformationNationalId`
 
 ### 7.3 Company Registration Number Uniqueness Within a Country
 
 **Rule:**
+
 The same Company Registration Number cannot be assigned to two business information records within the same country.
 
 **Enforcement:**
+
 A composite UNIQUE constraint on:
 
-- `BusinessInformationBusinessCountry`
+- `CountryCode`
 - `CompanyRegistrationNumber`
 
 ### 7.4 Country-Specific Postal Code Validation
 
 **Rule:**
+
 Postal code format must comply with the relevant country's postal code system.
 
 **Enforcement:**
+
 Application-layer validation.
 
 ### 7.5 Business Type Validation
 
 **Rule:**
+
 Only the predefined business types are accepted.
 
 **Enforcement:**
+
 Application normalization and database CHECK constraint.
+
+### 7.6 Country Reference Integrity
+
+**Rule:**
+
+Every business information record must reference a valid country through `CountryCode`.
+
+**Enforcement:**
+
+A NOT NULL foreign key referencing `BUSINESS_INFORMATION_COUNTRY(CountryCode)`.
+
+The relationship uses `ON UPDATE NO ACTION` and `ON DELETE NO ACTION`.
 
 ---
 
@@ -1551,12 +1613,17 @@ Application normalization and database CHECK constraint.
 | Relationship | ON UPDATE | ON DELETE |
 |---|---|---|
 | `BUSINESS_INFORMATION.UserRoleId` → `USER_ROLE.UserRoleId` | NO ACTION | NO ACTION |
+| `BUSINESS_INFORMATION.CountryCode` → `BUSINESS_INFORMATION_COUNTRY.CountryCode` | NO ACTION | NO ACTION |
 
 **Rule:**
-A referenced user-role assignment cannot be physically updated or deleted while a dependent business information record exists.
+
+Referenced user-role assignments and country records cannot be physically updated or deleted while dependent business information records exist.
 
 **Reason:**
+
 Preserves referential integrity and prevents unintended changes to dependent records.
+
+The system uses Soft Delete. Physical deletion is not part of the normal lifecycle.
 
 ---
 
@@ -1566,20 +1633,182 @@ The following decisions are currently established:
 
 1. `BusinessInformationId` is the primary key and uses `IDENTITY(1,1)`.
 2. `UserRoleId` is NOT NULL, references `USER_ROLE`, and is UNIQUE.
-3. National ID is required and unique within its country.
-4. Company Registration Number is required and unique within its country.
-5. Business Type is required and accepts only `COMPANY`, `ORGANIZATION`, or `INDIVIDUAL`.
-6. Business Legal Name is required but not unique.
-7. Business Postal Code is required and allows internal spaces.
-8. The image and business register attributes are required.
-9. No DEFAULT constraints have been finalized.
-10. The country validation and standardization approach remains pending.
+3. `CountryCode` is NOT NULL and references `BUSINESS_INFORMATION_COUNTRY(CountryCode)`.
+4. The country foreign key uses `ON UPDATE NO ACTION` and `ON DELETE NO ACTION`.
+5. National ID is required and unique within its country through `(CountryCode, BusinessInformationNationalId)`.
+6. Company Registration Number is required and unique within its country through `(CountryCode, CompanyRegistrationNumber)`.
+7. Business Type is required and accepts only `COMPANY`, `ORGANIZATION`, or `INDIVIDUAL`.
+8. Business Legal Name is required but not unique.
+9. Business Postal Code is required and allows internal spaces.
+10. The image and business register attributes are required.
+11. No DEFAULT constraints have been finalized.
+12. Country information is maintained in the separate `BUSINESS_INFORMATION_COUNTRY` table.
 
 ### Pending Naming and Validation Decisions
 
 - The existing attribute name `BusinessInformationBirthCertificateImage` does not clearly describe the intended band image. Its final name must be corrected before implementation.
 - The exact meaning and storage format of the band image must be confirmed.
-- The country representation and validation approach remain pending.
 - The registration authority may need to be included in the registration-number uniqueness scope if country-level uniqueness is insufficient.
 
-**Status:** Current constraints documented. Table separation and final implementation are postponed until the overall design organization is finalized.
+**Status:** The country attribute has been replaced by `CountryCode`, and the country relationship is defined through a NOT NULL foreign key.
+
+---
+
+# BUSINESS_INFORMATION_COUNTRY — Constraints Documentation
+
+## 1. Table Overview
+
+The `BUSINESS_INFORMATION_COUNTRY` table stores country reference data used by `BUSINESS_INFORMATION`.
+
+It maintains the country name and its corresponding country code. The `CountryCode` attribute is referenced by `BUSINESS_INFORMATION.CountryCode`.
+
+## 2. Attributes
+
+| Attribute | Data Type | Nullability | Description |
+|---|---|---|---|
+| `BusinessInformationBusinessCountry` | `NVARCHAR(100)` | NOT NULL | Stores the country name. |
+| `CountryCode` | `CHAR(2)` | NOT NULL | Stores the country code used to identify the country and connect business information records to it. |
+
+## 3. Primary Key (PK)
+
+The Primary Key definition for `BUSINESS_INFORMATION_COUNTRY` will be documented separately in the Keys document.
+
+`CountryCode` must be defined as a Primary Key or have a UNIQUE constraint before it can be referenced by the foreign key in `BUSINESS_INFORMATION`.
+
+## 4. NOT NULL Constraints
+
+The following attributes must not accept NULL values:
+
+- `BusinessInformationBusinessCountry`
+- `CountryCode`
+
+**Rule:**
+
+Every country reference record must contain both a country name and a country code.
+
+**Reason:**
+
+Both values are required to identify and reference a country consistently.
+
+## 5. UNIQUE Constraints
+
+No separate UNIQUE constraint is finalized in this document.
+
+The key definition for `CountryCode`, including the uniqueness required for the foreign key relationship, will be documented in the separate Keys document.
+
+## 6. CHECK Constraints
+
+### 6.1 Business Country Name
+
+**Rule:**
+
+- The country name must not be empty.
+- The country name must not contain only whitespace.
+- Leading and trailing spaces are not allowed.
+
+**Enforcement:**
+
+```sql
+CHECK (
+    LEN(TRIM(BusinessInformationBusinessCountry)) > 0
+)
+```
+
+```sql
+CHECK (
+    BusinessInformationBusinessCountry =
+    TRIM(BusinessInformationBusinessCountry)
+)
+```
+```
+CHECK (
+    CountryCode COLLATE Latin1_General_100_BIN2 IN (
+        'EG',
+        'US',
+        'GB',
+        'SA',
+        'AE',
+        'FR',
+        'DE'
+        -- Add the remaining approved country codes
+    )
+)
+```
+
+**Reason:**
+
+Prevents empty country names and avoids inconsistent values caused by leading or trailing spaces.
+
+### 6.2 CountryCode
+
+**Rule:**
+
+The country code must contain exactly two uppercase English letters.
+
+**Enforcement:**
+
+```sql
+CHECK (
+    CountryCode COLLATE Latin1_General_100_BIN2
+    NOT LIKE '%[^A-Z]%'
+)
+```
+
+**Reason:**
+
+Ensures that the stored code follows the selected two-character uppercase format.
+
+**Validation Note:**
+
+The CHECK constraint validates the code's format only. It does not verify that the code represents an officially recognized country. The country reference records must be populated and maintained using the approved country list.
+
+## 7. DEFAULT Constraints
+
+No DEFAULT constraints have been finalized for this table.
+
+Country names and country codes must be supplied when country reference records are created.
+
+## 8. Business Rule Constraints
+
+### 8.1 Country Reference Data
+
+- Each record represents a country.
+- Each country record must have a country name and a country code.
+- `CountryCode` is used by `BUSINESS_INFORMATION` to reference the corresponding country.
+- Country codes are treated as stable identifiers and are not expected to change.
+
+### 8.2 Country Record Retention
+
+- Country records must be retained while business information records reference them.
+- Physical deletion of a referenced country is prevented by the foreign key's `ON DELETE NO ACTION` action.
+- Country records are not physically deleted as part of the normal system lifecycle.
+
+## 9. Referential Actions
+
+The relationship is defined from:
+
+`BUSINESS_INFORMATION.CountryCode`
+
+to:
+
+`BUSINESS_INFORMATION_COUNTRY.CountryCode`
+
+| Action | Behavior |
+|---|---|
+| `ON UPDATE NO ACTION` | Prevents changing a referenced country code while business information records reference it. |
+| `ON DELETE NO ACTION` | Prevents physically deleting a country record while business information records reference it. |
+
+The foreign key is defined on the `BUSINESS_INFORMATION` table. This table is the referenced parent table.
+
+## 10. Lifecycle and Decision Finalization
+
+1. `BUSINESS_INFORMATION_COUNTRY` stores country names and country codes.
+2. `BusinessInformationBusinessCountry` uses `NVARCHAR(100)`.
+3. `CountryCode` uses `CHAR(2)` and must not accept NULL.
+4. The key definition for `CountryCode` will be documented separately.
+5. `BUSINESS_INFORMATION.CountryCode` is a NOT NULL foreign key referencing this table.
+6. The foreign key uses `ON UPDATE NO ACTION` and `ON DELETE NO ACTION`.
+7. Country codes are treated as stable and are not expected to change.
+8. Physical deletion of referenced country records is prevented. The system relies on Soft Delete rather than physical deletion.
+
+**Status:** Country reference table and its relationship with `BUSINESS_INFORMATION` are documented. Primary Key details remain in the separate Keys document.
