@@ -166,4 +166,24 @@ The existing Primary Key of `BUSINESS_INFORMATION` remains unchanged. `UserRoleI
 
 ![003-DATABASE-USER-DOMAIN-USERROLE-BUSINESSINFORMATION-RELATIONSHIP-AND-KEYS-SOLUTION](/005-DATABASE-RELATIONSHIP-SOLUTION/005-DATABASE-USER-MODULE-RELATIONSHIP-SOLUTION/005-RELATIONSHIP-SONLUTION/003-DATABASE-USER-DOMAIN-USERROLE-BUSINESSINFORMATION-RELATIONSHIP-AND-KEYS-SOLUTION.svg)
 
+---
 
+## EC-BI-001: Country Separation into a Reference Table
+
+### 1. Discovery Reference
+
+This design decision was identified after discovering the edge case documented in:
+
+`006-DATABASE-USER-MODULE-EDGECASES-AND-SOLUTION`
+
+### 2. Relationship and Cardinality
+
+The relationship between `BUSINESS_INFORMATION_COUNTRY` and `BUSINESS_INFORMATION` is **One-to-Many (1:M)**.
+
+- `BUSINESS_INFORMATION` has mandatory participation.
+- `BUSINESS_INFORMATION_COUNTRY` has optional participation.
+
+### 3. Keys and Relationship Solution
+
+- **Primary Key (PK):** `CountryCode` in `BUSINESS_INFORMATION_COUNTRY`.
+- **Foreign Key (FK):** `CountryCode` in `BUSINESS_INFORMATION`, referencing `BUSINESS_INFORMATION_COUNTRY(CountryCode)`.
