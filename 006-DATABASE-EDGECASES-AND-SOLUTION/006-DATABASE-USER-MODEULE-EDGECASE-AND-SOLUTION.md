@@ -90,3 +90,5 @@ The country name will not be duplicated in `BUSINESS_INFORMATION`.
 The country code will be used as the stable identifier in country-related uniqueness constraints.
 
 **Status:** Accepted for the current design.
+
+![000-DATABASE-USER-MODULE-FIRST-EDGECASE-SOLUTION](/006-DATABASE-EDGECASES-AND-SOLUTION/000-DATABASE-USER-MODULE-FIRST-EDGECASE-SOLUTION.svg)
