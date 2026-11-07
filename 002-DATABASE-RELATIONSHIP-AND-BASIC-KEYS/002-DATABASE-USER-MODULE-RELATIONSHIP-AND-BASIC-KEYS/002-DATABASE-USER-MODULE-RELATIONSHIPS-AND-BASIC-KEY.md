@@ -1,3 +1,5 @@
+VERSION 0.0.2
+
 # USER-DOMAIN — Relationships and Basic Keys Documentation
 
 ## 1. Overview
