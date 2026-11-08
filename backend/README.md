@@ -58,7 +58,7 @@ APPLICATION ASSEMBLY (src/app.js)
     v
 ROUTING TABLE (src/routes/authRoutes.js)
     |
-    |---- Route Path Matching (/api/auth/register)
+    |---- Route Path Matching (/api/auth/register, /api/auth/login)
     |
     v
 VALIDATION GATEWAY (src/middlewares/validate.js)
@@ -79,7 +79,7 @@ VALIDATION GATEWAY (src/middlewares/validate.js)
 CONTROLLER LAYER (src/controllers/authController.js)
     |
     |---- Business Logic Execution
-    |---- HTTP 201 JSON Response Delivery
+    |---- HTTP 200/201 JSON Response Delivery
     |
     v
 DATABASE LAYER (src/config/db.js + prisma/)

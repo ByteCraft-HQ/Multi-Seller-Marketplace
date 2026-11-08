@@ -2,9 +2,8 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('🌱 Starting Database Seeding...');
+  console.log(' Starting Database Seeding...');
 
-  // 1. إضافة فئات الأدوار الأساسية
   const categories = [
     { roleCategoryName: 'System Visitor', roleCategoryManager: 'Admin System' },
     { roleCategoryName: 'System Employee', roleCategoryManager: 'Admin System' },
@@ -23,7 +22,6 @@ async function main() {
   }
   console.log(' Role Categories seeded.');
 
-  // 2. إضافة الأدوار الأساسية التابعة للفئات
   const roles = [
     { roleName: 'CUSTOMER', roleCategoryName: 'System Visitor' },
     { roleName: 'SELLER', roleCategoryName: 'Seller Operations' },
