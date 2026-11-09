@@ -56,14 +56,15 @@ APPLICATION ASSEMBLY (src/app.js)
     |---- BigInt Serialization Polyfill
     |
     v
-ROUTING TABLE (src/routes/authRoutes.js)
+ROUTING TABLE (src/routes/)
     |
-    |---- Route Path Matching (/api/auth/register, /api/auth/login)
+    |---- Route Path Matching (/api/auth/*, /api/users/*)
     |
     v
-VALIDATION GATEWAY (src/middlewares/validate.js)
+SECURITY & VALIDATION GATEWAYS
     |
-    |---- Schema Enforcement (src/validations/authValidation.js)
+    |---- Authentication Guard (src/middlewares/authMiddleware.js)
+    |---- Schema Enforcement (src/validations/*.js via src/middlewares/validate.js)
     |
     +---- [FAIL] ----> OPERATIONAL ERROR (src/utils/AppError.js)
     |                       |
@@ -71,14 +72,14 @@ VALIDATION GATEWAY (src/middlewares/validate.js)
     |                  GLOBAL ERROR HANDLER (src/middlewares/errorMiddleware.js)
     |                       |
     |                       v
-    |                  HTTP 400 JSON RESPONSE
+    |                  HTTP 400/401/403 JSON RESPONSE
     |
     +---- [PASS]
     |
     v
-CONTROLLER LAYER (src/controllers/authController.js)
+CONTROLLER LAYER (src/controllers/)
     |
-    |---- Business Logic Execution
+    |---- Business Logic Execution (authController.js, userController.js)
     |---- HTTP 200/201 JSON Response Delivery
     |
     v
@@ -104,12 +105,13 @@ To review or onboard into the backend codebase, inspect the files in the followi
 | **3** | `prisma/seed.js` | Baseline Data | Initial role categories and core role definitions |
 | **4** | `src/utils/AppError.js` | Error Modeling | Operational error wrapper inheriting from native `Error` |
 | **5** | `src/middlewares/errorMiddleware.js` | Error Handling | Global 4-parameter terminal error response handler |
-| **6** | `src/validations/authValidation.js` | Input Validation | Zod schemas enforcing field-level business constraints |
+| **6** | `src/validations/` | Input Validation | Zod schemas for auth (`authValidation.js`) and user profile (`userValidation.js`) |
 | **7** | `src/middlewares/validate.js` | Gateway Guard | Higher-order middleware running `safeParse` on `req.body` |
-| **8** | `src/controllers/authController.js` | Orchestration | Controller functions handling incoming requests |
-| **9** | `src/routes/authRoutes.js` | API Routing | Route definitions binding validation middleware to controllers |
-| **10** | `src/app.js` | App Assembly | Express configuration, global middleware, and route mounting |
-| **11** | `src/server.js` | Server Entry | Environment loading and HTTP port listener |
+| **8** | `src/middlewares/authMiddleware.js` | Authentication | JWT token verification and user account status guard |
+| **9** | `src/controllers/` | Orchestration | `authController.js` (register, login) and `userController.js` (profile, phones) |
+| **10** | `src/routes/` | API Routing | `authRoutes.js` (/api/auth) and `userRoutes.js` (/api/users) |
+| **11** | `src/app.js` | App Assembly | Express configuration, global middleware, and route mounting |
+| **12** | `src/server.js` | Server Entry | Environment loading and HTTP port listener |
 
 ---
 
