@@ -1,3 +1,22 @@
+#NOTE#
+**Documentation Authorship and AI Assistance Clarification**
+
+I would like to clarify my approach to creating this project's documentation and the role of AI in the process.
+
+All the technical work, database design decisions, engineering concepts, analysis, problem-solving, and overall technical thinking behind this documentation are entirely my own. As the Database Engineer responsible for this work, I developed the ideas, understood the system, made the technical decisions, and documented the actual implementation based on my own knowledge and experience.
+
+The original documentation and technical explanations were written by me in Arabic. However, translating the content from Arabic into professional English was a time-consuming and challenging task, particularly when it came to maintaining technical accuracy, clarity, and consistency.
+
+For that reason, I used AI strictly as an assisting tool to translate, organize, refine, and improve the English presentation of the documentation.
+
+**To be absolutely clear: AI did not do the engineering work, make the technical decisions, design the database, or develop the underlying ideas. All of that was my responsibility and my work.**
+
+My use of AI was limited to overcoming the language barrier and presenting my existing technical knowledge and work in clearer, more structured, and more professional English.
+
+**The engineering is mine. The thinking is mine. The technical content is mine. AI simply helped me communicate that work more effectively in English.**
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 # Multi-Seller-Marketplace
 A full-scale multi-seller marketplace integrating frontend, backend, database engineering, data engineering, CRM, and warehouse management into a unified platform.
 
