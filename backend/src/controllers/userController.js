@@ -1,6 +1,6 @@
 const prisma = require('../config/db');
 const AppError = require('../utils/AppError');
-
+const userService = require('../services/userService');
 // ============================================================================
 // GET USER PROFILE CONTROLLER
 // ============================================================================
@@ -255,6 +255,68 @@ const deletePhone = async (req, res, next) => {
     next(error);
   }
 };
+// ============================================================================
+// ROLE MANAGEMENT CONTROLLERS
+// ============================================================================
+const updateRole = async (req, res, next) => {
+  try {
+    const userId = req.user.UserId;
+    const { targetRoleId } = req.body;
+    const updateVar = await userService.switchUserRole(userId, targetRoleId);
+    const JWTtoken = updateVar.JWTtoken;
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Role Changed Successfully',
+      JWTtoken,
+      data: {
+        user: {
+          role: updateVar.newRoleName,
+        },
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getUserRoles = async (req, res, next) => {
+  try {
+    const userId = req.user.UserId;
+    const userRolesInfo = await userService.getUserRoles(userId);
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        roles: userRolesInfo,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+// ============================================================================
+// ACCOUNT STATUS MANAGEMENT CONTROLLER
+// ============================================================================
+const updateAccountStatus = async (req, res, next) => {
+  try {
+    const userId = req.user.UserId;
+    const updateAccountStatusInfo = await userService.updateUserAccountStatus(
+      userId,
+      req.body
+    );
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Account status updated successfully',
+      data: {
+        user: updateAccountStatusInfo,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 // ============================================================================
 // EXPORTS
@@ -264,4 +326,7 @@ module.exports = {
   updateProfile,
   addPhone,
   deletePhone,
+  updateRole,
+  getUserRoles,
+  updateAccountStatus,
 };
