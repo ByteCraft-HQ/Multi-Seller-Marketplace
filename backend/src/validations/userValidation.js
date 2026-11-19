@@ -58,11 +58,56 @@ const addPhoneSchema = z.object({
     .min(8, 'Phone number must be at least 8 characters long')
     .max(25, 'Phone number cannot exceed 25 characters'),
 });
+// ============================================================================
+// SWITCH USER ROLE VALIDATION SCHEMA
+// ============================================================================
+const switchRoleSchema = z.object({
+  targetRoleId: z
+    .number()
+    .int()
+    .positive()
+    .max(255),
+});
 
+// ============================================================================
+// UPDATE ACCOUNT STATUS VALIDATION SCHEMA
+// ============================================================================
+const updateAccountStatusSchema = z
+  .object({
+    accountStatus: z.enum(['ACTIVE', 'DEACTIVATED', 'DELETED']),
+    deletionReason: z
+      .enum([
+        'NO_LONGER_USING_ACCOUNT',
+        'FOUND_BETTER_ALTERNATIVE',
+        'HIGH_PRICES',
+        'DELIVERY_ISSUES',
+        'PRODUCT_QUALITY_ISSUES',
+        'POOR_CUSTOMER_SERVICE',
+        'PRIVACY_CONCERNS',
+        'HAS_ANOTHER_ACCOUNT',
+        'OTHER',
+      ])
+      .optional(),
+    deletionTextReason: z.string().trim().max(150).optional(),
+  })
+  .refine(
+    (data) => {
+      if (data.accountStatus === 'DELETED' && !data.deletionReason) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: 'Deletion reason is required',
+      path: ['deletionReason'],
+    }
+  );
 // ============================================================================
 // EXPORTS
 // ============================================================================
 module.exports = {
   updateProfileSchema,
   addPhoneSchema,
+  switchRoleSchema,
+  updateAccountStatusSchema,
 };
