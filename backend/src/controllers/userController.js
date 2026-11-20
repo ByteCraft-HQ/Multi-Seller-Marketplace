@@ -317,7 +317,48 @@ const updateAccountStatus = async (req, res, next) => {
     next(error);
   }
 };
+// ============================================================================
+const createBusinessProfile = async (req ,res ,next) => {
+  try {
+    const userId = req.user.UserId;
+    const createBusinessProfileInfo =await userService.createBusinessProfile(userId,req.body);
+    res.status(201).json({
+      status: 'success',
+      message: 'Business profile created successfully and is under review',
+      data: {
+        businessProfile: createBusinessProfileInfo,
+      },
+    });
+  }
+  catch(error) {next(error);}
+};
+// ============================================================================
+const getBusinessProfile = async (req, res, next) => { 
+try {
+  const userId = req.user.UserId;
+  const getBusinessProfileInfo = await userService.getBusinessProfile(userId);
+  res.status(200).json({
+    status :'success',
+    data :{getBusinessProfileInfo}
+  })
+} catch (error) { next(error) }
 
+};
+// ============================================================================
+const updateBusinessProfile =async (req ,res ,next) => {
+  try{
+    const userId = req.user.UserId;
+    const updateBusinessProfileInfo = await userService.updateBusinessProfile(userId,req.body);
+    res.status(200).json({
+      status: 'success',
+      message: 'Business profile updated successfully and is under review',
+      data: {
+        businessProfile: updateBusinessProfileInfo,
+      },
+    });
+  } catch (error) {next(error);}
+
+};
 // ============================================================================
 // EXPORTS
 // ============================================================================
@@ -329,4 +370,7 @@ module.exports = {
   updateRole,
   getUserRoles,
   updateAccountStatus,
+  createBusinessProfile,
+  getBusinessProfile,
+  updateBusinessProfile,
 };
