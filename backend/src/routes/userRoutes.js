@@ -9,6 +9,8 @@ const {
   addPhoneSchema,
   switchRoleSchema,
   updateAccountStatusSchema,
+  createBusinessProfileSchema,
+  updateBusinessProfileSchema,
 } = require('../validations/userValidation');
 
 // ============================================================================
@@ -32,5 +34,8 @@ router.delete('/phone/:phoneNumber', protect, userController.deletePhone);
 
 router.patch('/switch-role', protect, validate(switchRoleSchema), userController.updateRole);
 router.get('/roles', protect, userController.getUserRoles);
+router.post('/business-profile',protect,validate(createBusinessProfileSchema),userController.createBusinessProfile);
+router.get('/business-profile',protect,userController.getBusinessProfile);
+router.patch('/business-profile', protect, validate(updateBusinessProfileSchema), userController.updateBusinessProfile);
 
 module.exports = router;

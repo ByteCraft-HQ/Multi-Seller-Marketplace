@@ -172,6 +172,19 @@ The documentation will distinguish between identifying the conceptual design, an
 
 # Backend Engineering Documentation
 
+#NOTE#
+**Backend Engineering, Architecture & AI Assistance Clarification**
+
+The backend service, architecture, and API layer of this project are engineered and implemented by the Backend Engineer.
+
+All domain workflows, business logic, transaction boundaries, security guards, and database integrations reflect my direct technical decisions and system design.
+
+AI was utilized strictly as an interactive pair-programmer—serving as a syntax linter, reviewer, and formatting assistant under my direct instructions and supervision.
+
+**All architectural decisions, domain logic, and final implementations are fully designed, reviewed, and owned by me.**
+
+---
+
 ## Backend Architecture & Request Pipeline Documentation
 
 We follow a structured, stage-by-stage layered methodology to design, implement, and document the backend system. Each layer has its own dedicated responsibility, following the order below.

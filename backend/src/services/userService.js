@@ -159,10 +159,114 @@ const updateUserAccountStatus = async (
   };
 };
 // ============================================================================
+const createBusinessProfile =async (userId, data) => {
+const existingProfile = await prisma.bUSINESS_INFORMATION.findFirst({
+  where: {
+    USER_ROLE: {
+      UserId: userId,
+    },
+  },
+});
+if (existingProfile) {throw new AppError('Business profile already exists for your account',409)}
+const result = await prisma.$transaction(async (tx) => {
+const sellerRole = await tx.rOLES.findUnique({
+   where: { RoleName: 'SELLER' },
+});
+let userRole = await tx.uSER_ROLE.findFirst({
+  where : {
+    UserId : userId,
+    RoleId :sellerRole.RoleId,
+  },
+});
+if (!userRole) {
+  userRole = await tx.uSER_ROLE.create({
+    data : {
+      UserId: userId,
+      RoleId: sellerRole.RoleId,
+      UserRoleStatus: 'UNDERREVIEW',
+      UserRoleActiveNow: false,
+    }
+  });
+}
+const {
+  BusinessInformationEmail,
+  BusinessInformationPhoneNumber,
+  ...infoData
+} = data;
+const newProfile = await tx.bUSINESS_INFORMATION.create({
+  data: {
+    UserRoleId: userRole.UserRoleId,
+    ...infoData,
+    BUSINESS_INFORMATION_EMAIL: {
+      create: BusinessInformationEmail.map((email) => ({
+        BusinessInformationEmail: email,
+      })),
+    },
+    BUSINESS_INFORMATION_PHONENUMBER: {
+      create: BusinessInformationPhoneNumber.map((phone) => ({
+        BusinessInformationPhoneNumber: phone,
+      })),
+    },
+  },
+  include: {
+    BUSINESS_INFORMATION_EMAIL: true,
+    BUSINESS_INFORMATION_PHONENUMBER: true,
+  },
+});
+return newProfile;
+
+});
+return result;
+};
+// ============================================================================
+const getBusinessProfile = async (userId) => {
+  const getBusinessProfileInfo =await prisma.bUSINESS_INFORMATION.findFirst({
+    where:{USER_ROLE : {UserId : userId}},
+    include : {
+      BUSINESS_INFORMATION_EMAIL : true ,
+      BUSINESS_INFORMATION_PHONENUMBER : true ,
+    }
+  });
+  if(!getBusinessProfileInfo)
+    {throw new AppError('No business profile found for this account', 404);}
+  else { return getBusinessProfileInfo ;}
+};
+// ============================================================================
+const updateBusinessProfile = async (userId,updateData) => {
+  const getBusinessProfileInfo =await prisma.bUSINESS_INFORMATION.findFirst({
+    where:{USER_ROLE : {UserId : userId}},
+  });
+  if(!getBusinessProfileInfo) {
+    throw new AppError('No business profile found for this account', 404);
+  }
+  if (Object.keys(updateData).length === 0) {
+    throw new AppError('Please provide at least one field to update', 400);
+  }
+  const result = await prisma.$transaction(async (tx) => {
+
+     const updated = await tx.bUSINESS_INFORMATION.update({
+     where: { BusinessInformationId: getBusinessProfileInfo.BusinessInformationId },
+     data: updateData,
+     include: { BUSINESS_INFORMATION_EMAIL: true, BUSINESS_INFORMATION_PHONENUMBER: true }
+     })
+
+    await tx.uSER_ROLE.update({
+     where: { UserRoleId: getBusinessProfileInfo.UserRoleId },
+     data: { UserRoleStatus: 'UNDERREVIEW' }
+     })
+
+    return updated;
+  });
+return result ;
+};
+// ============================================================================
 // EXPORTS
 // ============================================================================
 module.exports = {
   switchUserRole,
   getUserRoles,
   updateUserAccountStatus,
+  createBusinessProfile,
+  getBusinessProfile,
+  updateBusinessProfile,
 };
