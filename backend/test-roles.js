@@ -219,8 +219,8 @@ const runTests = async () => {
     `[PASS] 6.1 Deactivate Account: Status ${deactivateRes.status}, Status in DB: ${deactivateData.data.user.accountStatus}`
   );
 
-  // 6.2 Reactivate account -> Expected 200
-  const reactivateRes = await fetch(`${BASE_URL}/users/account-status`, {
+  // 6.2.A Deactivated Account Old Token Guard -> Expected 403 (blocked by authMiddleware)
+  const deactivatedGuardRes = await fetch(`${BASE_URL}/users/account-status`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -228,9 +228,25 @@ const runTests = async () => {
     },
     body: JSON.stringify({ accountStatus: 'ACTIVE' }),
   });
-  const reactivateData = await reactivateRes.json();
   console.log(
-    `[PASS] 6.2 Reactivate Account: Status ${reactivateRes.status}, Status in DB: ${reactivateData.data.user.accountStatus}`
+    `[PASS] 6.2.A Deactivated Account Token Blocked: Status ${deactivatedGuardRes.status} (Expected 403)`
+  );
+
+  // 6.2.B Reactivate Account on Login -> Expected 200 & Status ACTIVE
+  const reactivateLoginRes = await fetch(`${BASE_URL}/auth/login`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      userEmail: email,
+      password: 'Password123!',
+    }),
+  });
+  const reactivateData = await reactivateLoginRes.json();
+  const reactivatedToken = reactivateData.JWTtoken;
+  console.log(
+    `[PASS] 6.2.B Reactivate Account on Login: Status ${reactivateLoginRes.status}, Status in DB: ${reactivateData.data.user.accountStatus}`
   );
 
   // 6.3 Attempt transition to same status -> Expected 400
@@ -238,7 +254,7 @@ const runTests = async () => {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${newToken}`,
+      Authorization: `Bearer ${reactivatedToken}`,
     },
     body: JSON.stringify({ accountStatus: 'ACTIVE' }),
   });
@@ -251,7 +267,7 @@ const runTests = async () => {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${newToken}`,
+      Authorization: `Bearer ${reactivatedToken}`,
     },
     body: JSON.stringify({ accountStatus: 'DELETED' }),
   });
@@ -264,7 +280,7 @@ const runTests = async () => {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${newToken}`,
+      Authorization: `Bearer ${reactivatedToken}`,
     },
     body: JSON.stringify({
       accountStatus: 'DELETED',
@@ -282,7 +298,7 @@ const runTests = async () => {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${newToken}`,
+      Authorization: `Bearer ${reactivatedToken}`,
     },
     body: JSON.stringify({ accountStatus: 'ACTIVE' }),
   });
