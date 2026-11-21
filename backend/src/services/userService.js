@@ -119,6 +119,10 @@ const updateUserAccountStatus = async (
     throw new AppError('This Account Already Deleted', 400);
   }
 
+  if (accStatus.UserAccountStatus === 'PENDING' && accountStatus === 'ACTIVE') {
+  throw new AppError('Cannot self-activate a pending account. Verification is required.', 403);
+  }
+
   if (accStatus.UserAccountStatus === accountStatus) {
     throw new AppError(
       `This account is already in ${accountStatus} status`,

@@ -33,7 +33,18 @@ const updateProfileSchema = z.object({
   userBirthDate: z
     .string()
     .regex(/^\d{4}-\d{2}-\d{2}$/, 'Birth date must be in YYYY-MM-DD format')
-    .refine((dateStr) => new Date(dateStr) < new Date(), {
+    .refine(
+    (dateStr) => {
+    const [year, month, day] = dateStr.split('-').map(Number);
+    const date = new Date(year, month - 1, day);
+    return (
+      date.getFullYear() === year &&
+      date.getMonth() === month - 1 &&
+      date.getDate() === day
+    );
+    },
+    { message: 'Invalid calendar date (day does not exist in this month)' }
+    ).refine((dateStr) => new Date(dateStr) < new Date(), {
       message: 'Birth date must be in the past',
     })
     .optional()

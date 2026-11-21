@@ -213,38 +213,29 @@ const deletePhone = async (req, res, next) => {
   try {
     const { phoneNumber } = req.params;
 
-    // ------------------------------------------------------------------------
-    // 1. Verify Phone exists and belongs to current user
-    // ------------------------------------------------------------------------
-    const phoneRecord = await prisma.uSERPHONENUMBER.findUnique({
-      where: { UserPhoneNumber: phoneNumber },
-    });
+    await prisma.$transaction(async (tx) => {
+      const phoneRecord = await tx.uSERPHONENUMBER.findUnique({
+        where: { UserPhoneNumber: phoneNumber },
+      });
 
-    if (!phoneRecord || phoneRecord.UserId !== req.user.UserId) {
-      return next(new AppError('Phone number not found on your account', 404));
-    }
+      if (!phoneRecord || phoneRecord.UserId !== req.user.UserId) {
+        throw new AppError('Phone number not found on your account', 404);
+      }
 
-    // ------------------------------------------------------------------------
-    // 2. Business Rule: User MUST maintain at least ONE phone number
-    // ------------------------------------------------------------------------
-    const totalPhones = await prisma.uSERPHONENUMBER.count({
-      where: { UserId: req.user.UserId },
-    });
+      const totalPhones = await tx.uSERPHONENUMBER.count({
+        where: { UserId: req.user.UserId },
+      });
 
-    if (totalPhones <= 1) {
-      return next(
-        new AppError(
+      if (totalPhones <= 1) {
+        throw new AppError(
           'Cannot delete your only phone number. You must maintain at least one phone number on your account.',
           400
-        )
-      );
-    }
+        );
+      }
 
-    // ------------------------------------------------------------------------
-    // 3. Delete Phone Number
-    // ------------------------------------------------------------------------
-    await prisma.uSERPHONENUMBER.delete({
-      where: { UserPhoneNumber: phoneNumber },
+      await tx.uSERPHONENUMBER.delete({
+        where: { UserPhoneNumber: phoneNumber },
+      });
     });
 
     res.status(200).json({

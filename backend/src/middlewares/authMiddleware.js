@@ -34,7 +34,7 @@ if (!currentUser) {
   return next(new AppError('The user belonging to this token no longer exists.', 401));
 }
 
-if (['BLOCKED', 'DELETED', 'SUSPENDED'].includes(currentUser.UserAccountStatus)) {
+if (['BLOCKED', 'DELETED', 'SUSPENDED','DEACTIVATED'].includes(currentUser.UserAccountStatus)) {
   return next(new AppError('Your account is inactive or blocked.', 403));
 }
 

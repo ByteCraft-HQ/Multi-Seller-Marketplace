@@ -161,7 +161,13 @@ const login = async (req, res, next) => {
         new AppError('Your account has been suspended. Please contact support.', 403)
       );
     }
-
+    if (existingUser.UserAccountStatus === 'DEACTIVATED') {
+      await prisma.uSERS.update({
+       where: { UserId: existingUser.UserId },
+       data: { UserAccountStatus: 'ACTIVE' },
+      });
+    existingUser.UserAccountStatus = 'ACTIVE';
+    }
     // ------------------------------------------------------------------------
     // 4. Fetch Active Role
     // ------------------------------------------------------------------------
